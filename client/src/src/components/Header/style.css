@@ -1,0 +1,66 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 10vh;
+	width: 100%;
+	padding: 40px 10px;
+	background-color: #ffffff;
+	box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
+	z-index: 999;
+}
+.logo {
+	width: 80px;
+	cursor: pointer;
+}
+.header .link {
+	text-decoration: none !important;
+}
+
+.header .signIn,
+.header .signUp {
+	width: 90px;
+	height: 40px;
+	background: #d6d6d6 !important;
+	margin-left: 10px !important;
+	color: #000000 !important;
+	font-weight: 700 !important;
+	border-radius: 10px !important;
+	padding: 10px 20px !important;
+	transition: all 0.2s ease-in-out;
+	text-transform: capitalize !important;
+	font-size: 12px;
+}
+
+.header .signIn:hover,
+.header .signUp:hover {
+	opacity: 0.7;
+	transition: all 0.2s ease-in-out;
+}
+.header .signIn {
+	background: #ffcd06 !important;
+}
+
+/* small tablet styles */
+@media screen and (min-width: 620px) {
+}
+
+/* large tablet & laptop styles */
+@media screen and (min-width: 960px) {
+	.header {
+		padding: 40px 50px;
+	}
+	.logo {
+		width: 100px;
+	}
+}
+
+/* desktop styles */
+@media screen and (min-width: 1200px) {
+	.header {
+		padding: 40px 50px;
+	}
+	.logo {
+		width: 100px;
+	}
+}

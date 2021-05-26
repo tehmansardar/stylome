@@ -1,0 +1,25 @@
+.home {
+	height: 86vh;
+	width: 100%;
+	background: linear-gradient(rgba(0, 0, 0, 0.2) 100%, rgba(0, 0, 0, 0.2) 100%),
+		url('../../../assets/images/banner.jpg') no-repeat center center/cover;
+	padding-top: 1rem;
+}
+
+/* small tablet styles */
+@media screen and (min-width: 620px) {
+}
+
+/* large tablet & laptop styles */
+@media screen and (min-width: 960px) {
+	.home {
+		padding-top: 3rem;
+	}
+}
+
+/* desktop styles */
+@media screen and (min-width: 1200px) {
+	.home {
+		padding-top: 3rem;
+	}
+}

@@ -1,0 +1,96 @@
+.salon-left {
+	padding: 10px 0;
+}
+.salon-left img {
+	width: 100%;
+	border-radius: 10px;
+}
+.salon-left div h3 {
+	font-weight: 500;
+}
+.salon-left div p {
+	font-weight: 200;
+}
+.salon-left div .rating {
+	display: flex;
+	align-items: center;
+}
+.salon-left div .rating .MuiSvgIcon-root {
+	color: #ffcd06;
+}
+.salon-right {
+	display: none;
+}
+/* small tablet styles */
+@media screen and (min-width: 620px) {
+	/* .m-visit-btn-hide {
+		display: none;
+	} */
+}
+
+/* large tablet & laptop styles */
+@media screen and (min-width: 960px) {
+	.Salon {
+		display: flex;
+	}
+	.salon-left {
+		display: flex;
+	}
+	.salon-left img {
+		width: 40%;
+	}
+	.salon-left div {
+		padding-left: 10px;
+	}
+	.salon-left div .rating {
+		padding-left: 0px;
+	}
+
+	/* .m-visit-btn-hide {
+		display: none;
+	} */
+	/* ---- */
+
+	.salon-right {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: space-around;
+	}
+
+	.salon-right .MuiSvgIcon-root {
+		color: #e12626;
+	}
+
+	.m-visit-btn {
+		background: #ffcd06 !important;
+		font-weight: bold;
+		text-transform: capitalize;
+		width: 80px;
+	}
+
+	.salon-right .schedule-visit {
+		background: #ffcd06;
+		font-weight: bold;
+		text-transform: capitalize;
+		width: 120px;
+	}
+	.salon-right .schedule-visit:hover {
+		background: #fcd772;
+	}
+	.salon-right .salon-status,
+	.salon-right .salon-status:hover {
+		height: 20px;
+		background: none;
+		border: 1px solid #288e25;
+		color: #288e25;
+		font-size: 70%;
+	}
+}
+
+/* desktop styles */
+@media screen and (min-width: 1200px) {
+	/* .m-visit-btn-hide {
+		display: none;
+	} */
+}

@@ -1,0 +1,98 @@
+.info__header {
+	padding: 10px;
+}
+.info__header h1 {
+	font-weight: 500;
+	margin-bottom: 10px;
+}
+.like-location {
+	display: flex;
+	justify-content: space-between;
+}
+.like-location_left {
+	display: flex;
+}
+.like-location .rating {
+	display: flex;
+	align-items: center;
+	color: #383838cc;
+	padding-right: 5px;
+}
+.like-location .rating .MuiSvgIcon-root {
+	color: #ffcd06;
+}
+.like-location .rating b {
+	font-weight: 700;
+}
+.like-location .location {
+	display: flex;
+	align-items: center;
+}
+.like-location .location {
+	color: #383838cc;
+	text-decoration: underline;
+}
+.like-location .location .MuiSvgIcon-root {
+	color: #ffcd06;
+}
+
+.like-location-right {
+	display: flex;
+	justify-content: space-around;
+}
+.like-location .share {
+	display: flex;
+	align-items: center;
+	color: #383838cc;
+	padding-right: 5px;
+	text-decoration: underline;
+}
+.like-location .share .MuiSvgIcon-root {
+	color: #ffcd06;
+}
+.like-location .favorite {
+	display: flex;
+	align-items: center;
+	color: #383838cc;
+	text-decoration: underline;
+}
+.like-location .favorite .MuiSvgIcon-root {
+	color: #e12626;
+}
+
+.info__header img {
+	margin-top: 10px;
+	width: 100%;
+	border-radius: 15px;
+}
+/* facilities */
+.facilities {
+	padding: 10px;
+}
+.facilities h3 {
+	font-weight: 500;
+	letter-spacing: 0.5px;
+	margin-bottom: 10px;
+}
+.InfoScreen .hr-line {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 0.4em 0;
+	padding: 0;
+	/* width: 80%; */
+}
+
+.InfoScreen .description {
+	padding: 10px;
+}
+.InfoScreen .description p {
+	letter-spacing: 0.3px;
+	text-transform: initial;
+}
+.InfoScreen .map {
+	background: lightblue;
+	height: 400px;
+	width: 100%;
+}

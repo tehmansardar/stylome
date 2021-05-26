@@ -1,0 +1,38 @@
+.searchResult {
+	display: flex;
+	justify-content: center;
+}
+.searchItems {
+	display: flex;
+	width: 100vw;
+	height: 90vh;
+}
+.left-column {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem 2rem;
+}
+.right-column {
+	display: none;
+}
+
+/* small tablet styles */
+@media screen and (min-width: 620px) {
+}
+
+/* large tablet & laptop styles */
+@media screen and (min-width: 960px) {
+	.left-column {
+		flex: 0.6;
+	}
+	.right-column {
+		display: flex;
+		flex-direction: column;
+		background: lightblue;
+		flex: 0.4;
+	}
+}
+
+/* desktop styles */
+@media screen and (min-width: 1200px) {
+}

@@ -1,0 +1,49 @@
+.services {
+	padding: 10px;
+}
+.services h3 {
+	margin-bottom: 10px;
+	font-weight: 500;
+}
+.services-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.service-left {
+	padding-right: 10px;
+}
+.service-left img {
+	width: 100px;
+}
+
+.service-left h4 {
+	margin-bottom: 10px;
+	color: #646464;
+	font-weight: 500;
+	font-size: 18px;
+}
+.custom-services {
+	display: flex;
+	/* flex-wrap: wrap; */
+}
+.custom-service {
+	text-align: center;
+	color: #646464;
+}
+.custom-service h5 {
+	font-weight: 500;
+	margin-bottom: 3px;
+}
+.custom-service .time-price {
+	display: flex;
+	align-items: center;
+}
+.custom-service .MuiSvgIcon-root.localOffer,
+.custom-service .MuiSvgIcon-root.accesstime {
+	font-size: 18px;
+	margin-left: 5px;
+}
+.dot {
+	margin: 0 5px;
+}

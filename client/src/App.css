@@ -1,0 +1,13 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	outline: none !important;
+}
+.App {
+	font-family: 'Montserrat', sans-serif;
+	/* display: flex; */
+}
+.link {
+	text-decoration: none !important;
+}
