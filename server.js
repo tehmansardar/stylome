@@ -22,6 +22,7 @@ app.use(
 connectDB();
 
 // Routes
+app.use('/api/user', require('./routes/userRoutes'));
 
 app.use('/', (req, res, next) => {
 	res.json({ msg: 'Hello everyone' });
