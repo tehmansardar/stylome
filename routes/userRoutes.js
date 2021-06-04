@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+// Validations
 const {
 	registerRules,
 	validateRegister,
@@ -7,10 +8,17 @@ const {
 
 const { signinRules, validateSignin } = require('../middlwares/validateSignin');
 
+const { forgotRules, validateForgot } = require('../middlwares/validateForgot');
+
+const { resetRules, validateReset } = require('../middlwares/validateReset');
+
+// Auth
+const auth = require('../middlwares/auth');
+
 const userCtrl = require('../controllers/userCtrl');
 
 /**
- * @route   POST api/users/register
+ * @route   POST api/user/register
  * @desc    Register new user
  * @access  Public
  * @params	null
@@ -19,7 +27,7 @@ const userCtrl = require('../controllers/userCtrl');
 router.post('/register', registerRules(), validateRegister, userCtrl.register);
 
 /**
- * @route   POST api/users/activate
+ * @route   POST api/user/activate
  * @desc    Create User Via generated token
  * @access  Public
  * @params	null
@@ -37,12 +45,36 @@ router.post('/activate', userCtrl.activateEmail);
 router.post('/signin', signinRules(), validateSignin, userCtrl.signin);
 
 /**
- * @route   POST api/users/refresh_token
+ * @route   POST api/user/refresh_token
  * @desc    Signin user step 2, Generaete access_token obj
- * @access  Public
+ * @access  Private
  * @params	Get refreshtoken from cookies
  * @body	null
  */
 router.post('/refresh_token', userCtrl.getAccessToken);
+
+/**
+ * @route   POST api/user/forgot
+ * @desc    Forgot Password, Send email
+ * @access  Public
+ * @params	null
+ * @body	email
+ */
+router.post('/forgot', forgotRules(), validateForgot, userCtrl.forgotPassword);
+
+/**
+ * @route   POST api/user/reset
+ * @desc    Reset Password
+ * @access  Private
+ * @params	Authorization
+ * @body	password
+ */
+router.post(
+	'/reset',
+	auth,
+	resetRules(),
+	validateReset,
+	userCtrl.resetPassword
+);
 
 module.exports = router;
