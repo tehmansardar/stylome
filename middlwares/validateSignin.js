@@ -1,9 +1,7 @@
-const { validationResult, body } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
-const registerRules = () => {
+const signinRules = () => {
 	return [
-		body('fname', 'Please provide first name').not().isEmpty(),
-		body('lname', 'Please provide last name').not().isEmpty(),
 		body('email', 'Please provide email').isEmail(),
 		body('password', 'Password must greater than 6 characters').isLength({
 			min: 6,
@@ -11,7 +9,7 @@ const registerRules = () => {
 	];
 };
 
-const validateRegister = async (req, res, next) => {
+const validateSignin = async (req, res, next) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(400).json({ msg: errors.array() });
@@ -23,4 +21,4 @@ const validateRegister = async (req, res, next) => {
 	}
 };
 
-module.exports = { registerRules, validateRegister };
+module.exports = { signinRules, validateSignin };

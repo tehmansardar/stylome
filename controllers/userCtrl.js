@@ -59,6 +59,45 @@ const userCtrl = {
 			return res.status(500).json({ msg: error.message });
 		}
 	},
+	signin: async (req, res) => {
+		try {
+			const { email, password } = req.body;
+
+			const user = await User.findOne({ email });
+			if (!user) return res.status(400).json({ msg: 'Email does not exists' });
+
+			const isMatch = await bcrypt.compare(password, user.password);
+			if (!isMatch)
+				return res.status(400).json({ msg: 'Passowrd is incorrect.' });
+
+			const refreshToken = createRefreshToken({ id: user._id });
+
+			res.cookie('refreshtoken', refreshToken, {
+				httpOnly: true,
+				path: '/api/user/refresh_token',
+				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+			});
+
+			res.json({ msg: 'Signin Successfully' });
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
+	getAccessToken: async (req, res) => {
+		try {
+			const rf_token = req.cookies.refreshtoken;
+			if (!rf_token) return res.status(400).json({ msg: 'Please Signin' });
+
+			jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+				if (err) return res.status(400).json({ msg: 'Please Signin' });
+
+				const access_token = createAccessToken({ id: user.id });
+				res.json({ access_token });
+			});
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
 };
 
 const createActivationToken = (payload) => {
