@@ -77,4 +77,13 @@ router.post(
 	userCtrl.resetPassword
 );
 
+/**
+ * @route   GET api/user/user_info
+ * @desc    User Infromation except password
+ * @access  Private
+ * @params	Authorization
+ * @body	null
+ */
+router.get('/user_info', auth, userCtrl.getUserInfo);
+
 module.exports = router;

@@ -130,6 +130,14 @@ const userCtrl = {
 			res.status(500).json({ msg: error.message });
 		}
 	},
+	getUserInfo: async (req, res) => {
+		try {
+			const user = await User.findById(req.user.id).select('-password');
+			res.json(user);
+		} catch (error) {
+			return res.status(500).json({ msg: error.message });
+		}
+	},
 };
 
 const createActivationToken = (payload) => {
