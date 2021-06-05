@@ -15,6 +15,9 @@ const { resetRules, validateReset } = require('../middlwares/validateReset');
 // Auth
 const auth = require('../middlwares/auth');
 
+// Auth Amdin
+const authAdmin = require('../middlwares/authAdmin');
+
 const userCtrl = require('../controllers/userCtrl');
 
 /**
@@ -85,5 +88,14 @@ router.post(
  * @body	null
  */
 router.get('/user_info', auth, userCtrl.getUserInfo);
+
+/**
+ * @route   GET api/user/all_users
+ * @desc    User All users except password
+ * @access  Private
+ * @params	Authorization
+ * @body	null
+ */
+router.get('/all_users', auth, authAdmin, userCtrl.getAllUserInfo);
 
 module.exports = router;
