@@ -3,6 +3,7 @@ const sendEmail = require('./sendMail');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 const { CLIENT_URL } = process.env;
 
@@ -145,6 +146,26 @@ const userCtrl = {
 			res.json(users);
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
+		}
+	},
+	signOut: async (req, res) => {
+		try {
+			res.clearCookie('refreshtoken', { path: '/api/user/refresh_token' });
+			return res.json({ msg: 'Signout successfully' });
+		} catch (error) {
+			return res.status(500).json({ msg: error.message });
+		}
+	},
+	updateUser: async (req, res) => {
+		try {
+			const { fname, lname, avatar } = req.body;
+			await User.findOneAndUpdate(
+				{ _id: req.user.id },
+				{ fname, lname, avatar }
+			);
+			return res.json({ msg: 'Updated successfully' });
+		} catch (error) {
+			return res.status(500).json({ msg: error.message });
 		}
 	},
 };

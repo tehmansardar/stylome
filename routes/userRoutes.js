@@ -91,11 +91,29 @@ router.get('/user_info', auth, userCtrl.getUserInfo);
 
 /**
  * @route   GET api/user/all_users
- * @desc    User All users except password
+ * @desc    User All users except password, get data from req.user with generate from auth middleware.
  * @access  Private
  * @params	Authorization
  * @body	null
  */
 router.get('/all_users', auth, authAdmin, userCtrl.getAllUserInfo);
+
+/**
+ * @route   GET api/user/signout
+ * @desc    Remove token from cookie
+ * @access  Public
+ * @params	null
+ * @body	null
+ */
+router.get('/signout', userCtrl.signOut);
+
+/**
+ * @route   PATCH api/user/update_user
+ * @desc    Update First name, Last name, Avatar
+ * @access  Private
+ * @params	null
+ * @body	null
+ */
+router.patch('/update_user', auth, userCtrl.updateUser);
 
 module.exports = router;
