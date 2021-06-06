@@ -111,7 +111,7 @@ router.get('/signout', userCtrl.signOut);
  * @route   PATCH api/user/update_user
  * @desc    Update First name, Last name, Avatar
  * @access  Private
- * @params	null
+ * @params	Authorization token
  * @body	null
  */
 router.patch('/update_user', auth, userCtrl.updateUser);
