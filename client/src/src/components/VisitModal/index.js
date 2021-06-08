@@ -17,7 +17,6 @@ const VisitModal = () => {
 	const nextStepModal = () => {
 		setNextStep(!nextStep);
 	};
-	console.log(nextStep);
 
 	return (
 		<div className='VisitModal sm:w-full md:w-10/12 lg:w-2/5  w-10/12 rounded-3xl h-5/6	'>

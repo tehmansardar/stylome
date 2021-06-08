@@ -21,13 +21,13 @@ const authAdmin = require('../middlwares/authAdmin');
 const userCtrl = require('../controllers/userCtrl');
 
 /**
- * @route   POST api/user/register
+ * @route   POST api/user/signup
  * @desc    Register new user
  * @access  Public
  * @params	null
  * @body	fname,lname,email,password
  */
-router.post('/register', registerRules(), validateRegister, userCtrl.register);
+router.post('/signup', registerRules(), validateRegister, userCtrl.register);
 
 /**
  * @route   POST api/user/activate

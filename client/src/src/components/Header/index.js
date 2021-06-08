@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { Avatar, Button, Menu, MenuItem, Chip } from '@material-ui/core';
-
 import Logo from '../../../assets/images/logo.png';
 import './style.css';
 
 const Header = () => {
-	// const [anchorEl, setAnchorEl] = useState(null);
-
+	const auth = useSelector((state) => state.auth);
+	const { user, isLogged } = auth;
 	const [state, setState] = useState({
-		logged: true,
 		anchorEl: null,
 	});
 	const { logged, anchorEl } = state;
-
 	const handleClick = (event) => {
 		setState({ ...state, anchorEl: event.currentTarget });
+	};
+
+	const handleSignout = async () => {
+		try {
+			await axios.get('/api/user/signout');
+			localStorage.removeItem('firstLogin');
+			window.location.href = '/';
+		} catch (error) {
+			window.location.href = '/';
+		}
 	};
 
 	const handleClose = () => {
@@ -36,8 +44,8 @@ const Header = () => {
 	const renderAfter = (
 		<>
 			<div className='flex flex-row items-center' onClick={handleClick}>
-				<Avatar src='https://media-exp1.licdn.com/dms/image/C5603AQEWM0rF0oTGLA/profile-displayphoto-shrink_800_800/0/1587677838659?e=1625702400&v=beta&t=8vtbC6Hl_niIcCj9V2IAbjqeNQdSz3kA0VGHguTraYI' />
-				<h5 className=' ml-1'>hello, Tehman</h5>
+				<Avatar src={user.avatar} />
+				<h5 className=' ml-1 capitalize'>hello, {user.fname}</h5>
 			</div>
 			<Menu
 				id='simple-menu'
@@ -59,7 +67,14 @@ const Header = () => {
 					<MenuItem onClick={handleClose}>Profile</MenuItem>
 				</Link>
 				{/* <MenuItem onClick={handleClose}>Settings</MenuItem> */}
-				<MenuItem onClick={handleClose}>Logout</MenuItem>
+				<MenuItem
+					onClick={() => {
+						handleSignout();
+						handleClose();
+					}}
+				>
+					Logout
+				</MenuItem>
 			</Menu>
 		</>
 	);
@@ -72,7 +87,9 @@ const Header = () => {
 			</Link>
 
 			{/* header-right */}
-			<div className='header__right'>{logged ? renderAfter : renderbefore}</div>
+			<div className='header__right'>
+				{isLogged ? renderAfter : renderbefore}
+			</div>
 		</div>
 	);
 };

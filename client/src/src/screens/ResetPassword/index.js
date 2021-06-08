@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	createMuiTheme,
@@ -8,6 +8,7 @@ import {
 	TextField,
 	Typography,
 	Container,
+	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -41,51 +42,65 @@ const theme = createMuiTheme({
 const ResetPassword = () => {
 	const classes = useStyles();
 
-	return (
-		<ThemeProvider theme={theme}>
-			<Container component='main' maxWidth='xs'>
-				<CssBaseline />
-				<div className={classes.paper}>
-					<Typography component='h1' variant='h5'>
-						Reset Password
-					</Typography>
-					<form className={classes.form} noValidate>
-						<TextField
-							variant='outlined'
-							margin='normal'
-							required
-							fullWidth
-							name='password'
-							label='Password'
-							type='password'
-							id='password'
-							autoComplete='current-password'
-						/>
-						<TextField
-							variant='outlined'
-							margin='normal'
-							required
-							fullWidth
-							name='cf_password'
-							label='Confirm Password'
-							type='password'
-							id='cf_password'
-							autoComplete='current-password'
-						/>
+	const [loading, setLoading] = useState(true);
 
-						<Button
-							type='submit'
-							fullWidth
-							variant='contained'
-							color='primary'
-							className={classes.submit}
-						>
-							Reset Password
-						</Button>
-					</form>
+	useEffect(() => {
+		setTimeout(function () {
+			setLoading(false);
+		}, 300);
+	}, []);
+
+	return (
+		<div>
+			{loading ? (
+				<div className='h-96 flex justify-center items-center'>
+					<CircularProgress color='primary' />
 				</div>
-			</Container>
-		</ThemeProvider>
+			) : (
+				<Container component='main' maxWidth='xs'>
+					<CssBaseline />
+					<div className={classes.paper}>
+						<Typography component='h1' variant='h5'>
+							Reset Password
+						</Typography>
+						<form className={classes.form} noValidate>
+							<TextField
+								variant='outlined'
+								margin='normal'
+								required
+								fullWidth
+								name='password'
+								label='Password'
+								type='password'
+								id='password'
+								autoComplete='current-password'
+							/>
+							<TextField
+								variant='outlined'
+								margin='normal'
+								required
+								fullWidth
+								name='cf_password'
+								label='Confirm Password'
+								type='password'
+								id='cf_password'
+								autoComplete='current-password'
+							/>
+
+							<Button
+								type='submit'
+								fullWidth
+								variant='contained'
+								color='primary'
+								className={classes.submit}
+							>
+								Reset Password
+							</Button>
+						</form>
+					</div>
+				</Container>
+			)}
+		</div>
 	);
 };
 

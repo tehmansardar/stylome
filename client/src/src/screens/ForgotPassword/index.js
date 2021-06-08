@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	createMuiTheme,
 	ThemeProvider,
@@ -7,6 +7,7 @@ import {
 	TextField,
 	Typography,
 	Container,
+	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -40,40 +41,54 @@ const theme = createMuiTheme({
 const ForgotPassword = () => {
 	const classes = useStyles();
 
-	return (
-		<ThemeProvider theme={theme}>
-			<Container component='main' maxWidth='xs'>
-				<CssBaseline />
-				<div className={classes.paper}>
-					<Typography component='h1' variant='h5'>
-						Reset password
-					</Typography>
-					<form className={classes.form} noValidate>
-						<TextField
-							variant='outlined'
-							margin='normal'
-							required
-							fullWidth
-							id='email'
-							label='Email Address'
-							name='email'
-							autoComplete='email'
-							autoFocus
-						/>
+	const [loading, setLoading] = useState(true);
 
-						<Button
-							type='submit'
-							fullWidth
-							variant='contained'
-							color='primary'
-							className={classes.submit}
-						>
-							Submit
-						</Button>
-					</form>
+	useEffect(() => {
+		setTimeout(function () {
+			setLoading(false);
+		}, 300);
+	}, []);
+
+	return (
+		<div>
+			{loading ? (
+				<div className='h-96 flex justify-center items-center'>
+					<CircularProgress color='primary' />
 				</div>
-			</Container>
-		</ThemeProvider>
+			) : (
+				<Container component='main' maxWidth='xs'>
+					<CssBaseline />
+					<div className={classes.paper}>
+						<Typography component='h1' variant='h5'>
+							Reset password
+						</Typography>
+						<form className={classes.form} noValidate>
+							<TextField
+								variant='outlined'
+								margin='normal'
+								required
+								fullWidth
+								id='email'
+								label='Email Address'
+								name='email'
+								autoComplete='email'
+								autoFocus
+							/>
+
+							<Button
+								type='submit'
+								fullWidth
+								variant='contained'
+								color='primary'
+								className={classes.submit}
+							>
+								Submit
+							</Button>
+						</form>
+					</div>
+				</Container>
+			)}
+		</div>
 	);
 };
 

@@ -31,7 +31,7 @@ const userCtrl = {
 
 			sendEmail(email, url, 'Verfiy your email address');
 
-			return res.status(500).json({ msg: 'Verify your email address' });
+			return res.status(200).json({ msg: 'Verify your email address' });
 		} catch (error) {
 			return res.status(500).json({ msg: error.message });
 		}
