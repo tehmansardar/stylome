@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import { Link, useParams } from 'react-router-dom';
 import {
 	createMuiTheme,
-	ThemeProvider,
 	Button,
 	CssBaseline,
 	TextField,
@@ -10,6 +11,15 @@ import {
 	Container,
 	CircularProgress,
 } from '@material-ui/core';
+
+import {
+	isEmpty,
+	isLength,
+	isMatch,
+} from '../../components/utils/validation/Validation';
+import Success from '../../components/utils/Notification.js/Success';
+import Errors from '../../components/utils/Notification.js/Errors';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,16 +38,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: '#FFCD06',
-		},
-		secondary: {
-			main: '#000',
-		},
-	},
-});
+const initialState = {
+	password: '',
+	cf_password: '',
+	err: '',
+	success: '',
+};
 
 const ResetPassword = () => {
 	const classes = useStyles();
@@ -50,6 +56,50 @@ const ResetPassword = () => {
 		}, 300);
 	}, []);
 
+	const [state, setState] = useState(initialState);
+	const { password, cf_password, err, success } = state;
+	const { token } = useParams();
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setState({ ...state, [name]: value, err: '', success: '' });
+	};
+
+	const handleResetPass = async (e) => {
+		e.preventDefault();
+		if (isLength(password))
+			return setState({
+				...state,
+				err: 'Password must be atleast 6 characters',
+				success: '',
+			});
+
+		if (!isMatch(password, cf_password))
+			return setState({ ...state, err: 'Password did not match', success: '' });
+
+		try {
+			const res = await axios.post(
+				'/api/user/reset',
+				{ password },
+				{
+					headers: { Authorization: token },
+				}
+			);
+			return setState({
+				...state,
+				password: '',
+				cf_password: '',
+				err: '',
+				success: res.data.msg,
+			});
+		} catch (error) {
+			err.response.data.msg &&
+				setState({ ...state, err: err.response.data.msg, success: '' });
+		}
+	};
+
+	console.log(success);
+
 	return (
 		<div>
 			{loading ? (
@@ -58,22 +108,30 @@ const ResetPassword = () => {
 				</div>
 			) : (
 				<Container component='main' maxWidth='xs'>
+					{success && <Success show={true} msg={success} />}
+					{err && <Errors show={true} msg={err} />}
 					<CssBaseline />
 					<div className={classes.paper}>
 						<Typography component='h1' variant='h5'>
 							Reset Password
 						</Typography>
-						<form className={classes.form} noValidate>
+						<form
+							onSubmit={handleResetPass}
+							className={classes.form}
+							noValidate
+						>
 							<TextField
 								variant='outlined'
 								margin='normal'
 								required
 								fullWidth
 								name='password'
-								label='Password'
+								label='New Password'
 								type='password'
 								id='password'
 								autoComplete='current-password'
+								value={password}
+								onChange={handleChange}
 							/>
 							<TextField
 								variant='outlined'
@@ -85,6 +143,8 @@ const ResetPassword = () => {
 								type='password'
 								id='cf_password'
 								autoComplete='current-password'
+								value={cf_password}
+								onChange={handleChange}
 							/>
 
 							<Button

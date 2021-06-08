@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,7 +8,11 @@ import {
 } from './redux/actions/authActions';
 import axios from 'axios';
 
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import {
+	createMuiTheme,
+	ThemeProvider,
+	CircularProgress,
+} from '@material-ui/core';
 
 import Header from './src/components/Header';
 import Body from './src/Body';
@@ -26,6 +30,14 @@ const theme = createMuiTheme({
 });
 
 function App() {
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setTimeout(function () {
+			setLoading(false);
+		}, 1000);
+	}, []);
+
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const auth = useSelector((state) => state.auth);
@@ -57,8 +69,18 @@ function App() {
 		<div className='App'>
 			<Router>
 				<ThemeProvider theme={theme}>
-					<Header />
-					<Body />
+					{loading ? (
+						<>
+							<div className='h-96 flex justify-center items-center'>
+								<CircularProgress color='primary' />
+							</div>
+						</>
+					) : (
+						<>
+							<Header />
+							<Body />
+						</>
+					)}
 				</ThemeProvider>
 			</Router>
 		</div>

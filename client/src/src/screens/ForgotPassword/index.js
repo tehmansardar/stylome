@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
 	createMuiTheme,
-	ThemeProvider,
 	Button,
 	CssBaseline,
 	TextField,
@@ -10,6 +10,10 @@ import {
 	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { isEmpty, isEmail } from '../../components/utils/validation/Validation';
+import Success from '../../components/utils/Notification.js/Success';
+import Errors from '../../components/utils/Notification.js/Errors';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -27,27 +31,45 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: '#FFCD06',
-		},
-		secondary: {
-			main: '#000',
-		},
-	},
-});
+const initialState = {
+	email: '',
+	err: '',
+	success: '',
+};
 
 const ForgotPassword = () => {
 	const classes = useStyles();
 
 	const [loading, setLoading] = useState(true);
 
+	const [state, setState] = useState(initialState);
+	const { email, err, success } = state;
+
 	useEffect(() => {
 		setTimeout(function () {
 			setLoading(false);
 		}, 300);
 	}, []);
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setState({ ...state, [name]: value, err: '', success: '' });
+	};
+
+	const forgotPassword = async (e) => {
+		e.preventDefault();
+
+		if (!isEmail(email))
+			return setState({ ...state, err: 'Invalid email', success: '' });
+
+		try {
+			const res = await axios.post('/api/user/forgot', { email });
+			return setState({ ...state, err: '', success: res.data.msg });
+		} catch (error) {
+			error.response.data.msg &&
+				setState({ ...state, err: error.response.data.msg, success: '' });
+		}
+	};
 
 	return (
 		<div>
@@ -57,12 +79,14 @@ const ForgotPassword = () => {
 				</div>
 			) : (
 				<Container component='main' maxWidth='xs'>
+					{success && <Success show={true} msg={success} />}
+					{err && <Errors show={true} msg={err} />}
 					<CssBaseline />
 					<div className={classes.paper}>
 						<Typography component='h1' variant='h5'>
 							Reset password
 						</Typography>
-						<form className={classes.form} noValidate>
+						<form onSubmit={forgotPassword} className={classes.form} noValidate>
 							<TextField
 								variant='outlined'
 								margin='normal'
@@ -73,6 +97,8 @@ const ForgotPassword = () => {
 								name='email'
 								autoComplete='email'
 								autoFocus
+								value={email}
+								onChange={handleChange}
 							/>
 
 							<Button

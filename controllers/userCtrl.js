@@ -107,7 +107,7 @@ const userCtrl = {
 			if (!user) return res.status(400).json({ msg: 'Email does not exists' });
 
 			const access_token = createAccessToken({ id: user._id });
-			const url = `${CLIENT_URL}/user/reset/${access_token}`;
+			const url = `${CLIENT_URL}/user/reset-password/${access_token}`;
 			sendEmail(email, url, 'Reset Password');
 
 			res.json({ msg: 'Check your email to reset password' });
@@ -126,7 +126,7 @@ const userCtrl = {
 				{ password: passwordHash }
 			);
 
-			return res.status(205).json({ msg: 'Password change successfully.' });
+			return res.status(200).json({ msg: 'Password change successfully.' });
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
 		}

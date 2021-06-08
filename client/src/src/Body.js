@@ -36,7 +36,7 @@ const Body = () => {
 					exact
 				/>
 				<Route
-					path='/reset-password'
+					path='/user/reset-password/:token'
 					component={isLogged ? Home : ResetPassword}
 					exact
 				/>
