@@ -1,0 +1,29 @@
+.avatarWrapper {
+	overflow: hidden;
+	position: relative;
+	/* margin: 15px auto; */
+	/* border: 5px solid #ffcd06; */
+	/* background: #000; */
+	border-radius: 50%;
+	cursor: pointer;
+}
+.avatar {
+	object-fit: cover;
+}
+.avatarWrapper span {
+	position: absolute;
+	bottom: -100;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	background: #fff8;
+	text-align: center;
+	font-weight: 300 m !important;
+	text-transform: uppercase;
+	color: #ffcd06;
+	transition: 0.3s ease-in-out;
+}
+
+.avatarWrapper:hover span {
+	bottom: -15%;
+}

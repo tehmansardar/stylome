@@ -163,7 +163,7 @@ const userCtrl = {
 				{ _id: req.user.id },
 				{ fname, lname, avatar }
 			);
-			return res.json({ msg: 'Updated successfully' });
+			return res.status(200).json({ msg: 'Updated successfully' });
 		} catch (error) {
 			return res.status(500).json({ msg: error.message });
 		}
