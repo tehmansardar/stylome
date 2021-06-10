@@ -3,7 +3,6 @@ const sendEmail = require('./sendMail');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { response } = require('express');
 
 const { CLIENT_URL } = process.env;
 
@@ -141,7 +140,6 @@ const userCtrl = {
 	},
 	getAllUserInfo: async (req, res) => {
 		try {
-			console.log(req.user);
 			const users = await User.find().select('-password');
 			res.json(users);
 		} catch (error) {
@@ -178,7 +176,7 @@ const createActivationToken = (payload) => {
 
 const createAccessToken = (payload) => {
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: '15m',
+		expiresIn: '1d',
 	});
 };
 
