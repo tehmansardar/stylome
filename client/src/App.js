@@ -16,6 +16,9 @@ import {
 
 import Header from './src/components/Header';
 import Body from './src/Body';
+
+import DashboardArea from './src/screens/DashboardScreens/index';
+
 import './App.css';
 
 const theme = createMuiTheme({
@@ -25,6 +28,9 @@ const theme = createMuiTheme({
 		},
 		secondary: {
 			main: '#000',
+		},
+		ordinary: {
+			main: '#FFF',
 		},
 	},
 });
@@ -41,7 +47,7 @@ function App() {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const auth = useSelector((state) => state.auth);
-
+	const { user } = auth;
 	useEffect(() => {
 		const firstLogin = localStorage.getItem('firstLogin');
 		if (firstLogin) {
@@ -74,6 +80,10 @@ function App() {
 							<div className='h-96 flex justify-center items-center'>
 								<CircularProgress color='primary' />
 							</div>
+						</>
+					) : user.role === 1 ? (
+						<>
+							<DashboardArea />
 						</>
 					) : (
 						<>

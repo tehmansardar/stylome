@@ -29,6 +29,10 @@ const salonSchema = new mongoose.Schema(
 				type: String,
 				default: null,
 			},
+			postalCode: {
+				type: String,
+				default: null,
+			},
 			province: {
 				type: String,
 				default: null,
