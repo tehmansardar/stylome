@@ -14,11 +14,13 @@ const salonSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
-		gender: {
-			type: String,
-			required: true,
-			default: null,
-		},
+		gender: [
+			{
+				type: String,
+				required: true,
+				default: null,
+			},
+		],
 		showcase: [],
 		location: {
 			address: {
@@ -62,11 +64,11 @@ const salonSchema = new mongoose.Schema(
 		},
 		openingDays: [],
 		timing: {
-			open: {
+			opening: {
 				type: String,
 				default: null,
 			},
-			close: {
+			closing: {
 				type: String,
 				default: null,
 			},
