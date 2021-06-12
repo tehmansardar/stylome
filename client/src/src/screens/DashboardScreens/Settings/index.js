@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import BasicInfo from './BasicInfo';
+import Services from './Services';
 
 const AntTabs = withStyles({
 	root: {
@@ -76,18 +77,18 @@ export default function Settings() {
 			<AntTabs value={value} onChange={handleChange} aria-label='Settings Tabs'>
 				<AntTab label='Basic Info' {...a11yProps(0)} />
 				<AntTab label='Services' {...a11yProps(1)} />
-				<AntTab label='Staff' {...a11yProps(2)} />
+				{/* <AntTab label='Staff' {...a11yProps(2)} /> */}
 			</AntTabs>
 
 			<TabPanel value={value} index={0}>
 				<BasicInfo />
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				<BasicInfo />
+				<Services />
 			</TabPanel>
-			<TabPanel value={value} index={2}>
+			{/* <TabPanel value={value} index={2}>
 				<BasicInfo />
-			</TabPanel>
+			</TabPanel> */}
 		</div>
 	);
 }
