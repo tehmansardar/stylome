@@ -32,4 +32,22 @@ router.post('/opensalon', auth, salonCtrl.openSalon);
  */
 router.patch('/basicsalonInfo', auth, salonAuth, salonCtrl.basicSalon);
 
+/**
+ * @route   POST /api/salon/addService
+ * @desc    Add Service to salon
+ * @access  Private
+ * @params	Authorization
+ * @body	req.salon.id, service, customServices:{ primary:{}, secondary:{}, tertiary:{}}
+ */
+router.post('/addService', auth, salonAuth, salonCtrl.addService);
+
+/**
+ * @route   POST /api/salon/newstaff
+ * @desc    Add new staff to salon with specialization of services can provide more than one services but opening time and closing time is mendatory to register user
+ * @access  Private
+ * @params	Authorization
+ * @body    req.salon.id name, services, timing will automatically fetched from salon timing and divided them into slots
+ */
+router.post('/newstaff', auth, salonAuth, salonCtrl.newStaff);
+
 module.exports = router;

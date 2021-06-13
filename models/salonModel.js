@@ -21,7 +21,10 @@ const salonSchema = new mongoose.Schema(
 				default: null,
 			},
 		],
-		showcase: [],
+		showcase: {
+			type: String,
+			default: '',
+		},
 		location: {
 			address: {
 				type: String,
@@ -44,16 +47,16 @@ const salonSchema = new mongoose.Schema(
 				default: null,
 			},
 		},
-		located: {
-			lat: {
-				type: String,
-				default: null,
-			},
-			long: {
-				type: String,
-				default: null,
-			},
-		},
+		// located: {
+		// 	lat: {
+		// 		type: String,
+		// 		default: null,
+		// 	},
+		// 	long: {
+		// 		type: String,
+		// 		default: null,
+		// 	},
+		// },
 		description: {
 			type: String,
 			default: 'Nothing in description',
@@ -62,7 +65,7 @@ const salonSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
-		openingDays: [],
+		//openingDays: [],
 		timing: {
 			opening: {
 				type: String,
@@ -73,7 +76,18 @@ const salonSchema = new mongoose.Schema(
 				default: null,
 			},
 		},
-		staff: [],
+		services: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'services',
+			},
+		],
+		staff: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'staff',
+			},
+		],
 		allow: {
 			type: Boolean,
 			default: false,
