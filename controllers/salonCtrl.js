@@ -17,7 +17,7 @@ const salonCtrl = {
 		const { name, gender } = req.body;
 		try {
 			const user = await Salon.findOne({ user: req.user.id });
-			if (user) return res.send('User Already have salon');
+			if (user) return res.status(400).json({ msg: 'User already have salon' });
 
 			const newSalon = new Salon({
 				user: req.user.id,
