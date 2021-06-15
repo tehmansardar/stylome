@@ -2,6 +2,7 @@ const ACTIONS = {
 	SIGNIN: 'SIGNIN',
 	GET_TOKEN: 'GET_TOKEN',
 	GET_USER: 'GET_USER',
+	GET_SALON: 'GET_SALON',
 };
 
 export default ACTIONS;

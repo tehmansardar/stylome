@@ -12,7 +12,16 @@ const salonCtrl = {
 			res.status(500).json({ msg: error.message });
 		}
 	},
-
+	salonByUser: async (req, res) => {
+		try {
+			const salon = await Salon.findById(req.salon.id)
+				.populate('staff')
+				.populate('services');
+			return res.status(200).json(salon);
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
 	openSalon: async (req, res) => {
 		const { name, gender } = req.body;
 		try {

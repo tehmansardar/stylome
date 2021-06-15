@@ -16,6 +16,15 @@ const salonCtrl = require('../controllers/salonCtrl');
 router.get('/salons', salonCtrl.getAllSalons);
 
 /**
+ * @route   GET /api/salon/salonbyuser
+ * @desc    Get the data of salon by owner of salon.
+ * @access  Private
+ * @params	Authorization
+ * @body	req.user, req.salon
+ */
+router.get('/salonbyuser', auth, salonAuth, salonCtrl.salonByUser);
+
+/**
  * @route   POST /api/salon/opensalon
  * @desc    User All users except password, get data from req.user with generate from auth middleware.
  * @access  Private

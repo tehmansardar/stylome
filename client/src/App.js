@@ -5,6 +5,8 @@ import {
 	dispatchSignin,
 	fetchUser,
 	dispatchGetUser,
+	fetchSalon,
+	dispatchGetSalon,
 } from './redux/actions/authActions';
 import axios from 'axios';
 
@@ -47,6 +49,7 @@ function App() {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const auth = useSelector((state) => state.auth);
+	const isSalon = useSelector((state) => state.auth.isSalon);
 	const { user } = auth;
 	useEffect(() => {
 		const firstLogin = localStorage.getItem('firstLogin');
@@ -70,6 +73,18 @@ function App() {
 			getUser();
 		}
 	}, [token, dispatch]);
+
+	useEffect(() => {
+		if (token) {
+			const getSalon = () => {
+				return fetchSalon(token).then((res) => {
+					// console.log(res);
+					dispatch(dispatchGetSalon(res));
+				});
+			};
+			getSalon();
+		}
+	}, [token]);
 
 	return (
 		<div className='App'>
