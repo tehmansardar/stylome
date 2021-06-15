@@ -5,9 +5,8 @@ import {
 	dispatchSignin,
 	fetchUser,
 	dispatchGetUser,
-	fetchSalon,
-	dispatchGetSalon,
 } from './redux/actions/authActions';
+import { fetchSalon, dispatchGetSalon } from './redux/actions/salonActions';
 import axios from 'axios';
 
 import {

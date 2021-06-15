@@ -13,8 +13,18 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 import SettingsIcon from '@material-ui/icons/Settings';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-
+import axios from 'axios';
 import { Link } from 'react-router-dom';
+
+const handleSignout = async () => {
+	try {
+		await axios.get('/api/user/signout');
+		localStorage.removeItem('firstLogin');
+		window.location.href = '/';
+	} catch (error) {
+		window.location.href = '/';
+	}
+};
 
 export const mainListItems = (
 	<div>
@@ -50,7 +60,7 @@ export const mainListItems = (
 				<ListItemText primary='Settings' />
 			</ListItem>
 		</Link>
-		<ListItem button>
+		<ListItem button onClick={handleSignout}>
 			<ListItemIcon>
 				<PowerSettingsNewIcon />
 			</ListItemIcon>
