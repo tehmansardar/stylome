@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import Success from '../../components/utils/Notification.js/Success';
+import Errors from '../../components/utils/Notification.js/Errors';
+
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
 		position: 'relative',
+	},
+	container: {
+		paddingTop: theme.spacing(4),
+		paddingBottom: theme.spacing(4),
 	},
 	layout: {
 		width: 'auto',
@@ -53,64 +58,120 @@ const useStyles = makeStyles((theme) => ({
 const OpenSalon = () => {
 	const classes = useStyles();
 
+	const token = useSelector((state) => state.token);
+
+	const [state, setState] = useState({ err: '', success: '' });
+	const { err, success } = state;
+	const [name, setName] = useState('');
+	const [gender, setGender] = useState({
+		male: false,
+		female: false,
+		other: false,
+	});
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		try {
+			if (!name) {
+				return setState({
+					...state,
+					err: "What's name of your salon",
+					success: '',
+				});
+			}
+
+			if (gender.male || gender.female || gender.other) {
+				axios.post(
+					'/api/salon/opensalon',
+					{
+						name: name,
+						gender: gender,
+					},
+					{ headers: { Authorization: token } }
+				);
+			} else {
+				return setState({
+					...state,
+					err: "To who you're serving?",
+					success: '',
+				});
+			}
+			setState({
+				...state,
+				err: '',
+				success: 'Congratualtions! for opening salon',
+			});
+			window.location.href = '/';
+		} catch (error) {
+			return setState({ ...state, err: error.response.data.msg, success: '' });
+		}
+	};
+
 	return (
 		<>
 			<CssBaseline />
-
 			<main className={classes.layout}>
 				<Paper className={classes.paper}>
-					<Typography component='h3' variant='h5' align='center'>
-						Open Your Salon
-					</Typography>
-					<form action='' noValidate>
-						<Grid item xs={12}>
-							<TextField
-								required
-								id='salon-name'
-								name='salon-name'
-								label='Enter You Salon Name'
-								fullWidth
-								autoComplete='false'
-								color='secondary'
-							/>
-						</Grid>
-						<Grid xs={12}>
-							<h3 className='mt-6 font-medium font-sans'>
-								You're welcoming for
-							</h3>
-							<RadioGroup row aria-label='gender' name='gender1'>
-								<FormControlLabel
-									value='female'
-									control={<Radio />}
-									label='Female'
-									labelPlacement='start'
+					<Container className={classes.container}>
+						{success && <Success show={true} msg={success} />}
+						{err && <Errors show={true} msg={err} />}
+						<Typography component='h3' variant='h5' align='center'>
+							Open Your Salon
+						</Typography>
+						<form autoComplete='off' onSubmit={handleSubmit}>
+							<Grid item xs={12}>
+								<TextField
+									id='name'
+									name='name'
+									label='Enter You Salon Name'
+									fullWidth
+									color='secondary'
+									defaultValue=''
+									onChange={(e) => setName(e.target.value)}
 								/>
+							</Grid>
+							<Grid xs={12}>
+								<h3 className='mt-6 font-medium font-sans'>
+									We are providing services to
+								</h3>
 								<FormControlLabel
 									value='male'
-									control={<Radio />}
+									control={<Checkbox color='primary' checked={gender.male} />}
 									label='Male'
 									labelPlacement='start'
+									onClick={() => setGender({ ...gender, male: !gender.male })}
 								/>
 								<FormControlLabel
-									value='both'
-									control={<Radio />}
-									label='Both'
+									value='female'
+									control={<Checkbox color='primary' checked={gender.female} />}
+									label='Female'
 									labelPlacement='start'
+									onClick={() =>
+										setGender({ ...gender, female: !gender.female })
+									}
 								/>
-							</RadioGroup>
-						</Grid>
+								<FormControlLabel
+									value='other'
+									control={<Checkbox color='primary' checked={gender.other} />}
+									label='Other'
+									labelPlacement='start'
+									onClick={() => setGender({ ...gender, other: !gender.other })}
+								/>
+							</Grid>
 
-						<div className={classes.buttons}>
-							<Button
-								variant='contained'
-								color='secondary'
-								className={classes.button}
-								type='submit'
-							>
-								Submit
-							</Button>
-						</div>
-					</form>
+							<div className={classes.buttons}>
+								<Button
+									variant='contained'
+									color='secondary'
+									className={classes.button}
+									type='submit'
+								>
+									Submit
+								</Button>
+							</div>
+						</form>
+					</Container>
 				</Paper>
 			</main>
 		</>

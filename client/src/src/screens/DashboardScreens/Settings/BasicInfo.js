@@ -19,6 +19,9 @@ import {
 } from '@material-ui/pickers';
 import { getHours } from 'date-fns';
 
+import Success from '../../../components/utils/Notification.js/Success';
+import Errors from '../../../components/utils/Notification.js/Errors';
+
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -79,6 +82,7 @@ const BasicInfo = () => {
 	const salons = useSelector((state) => state.salons);
 
 	const [state, setState] = useState({ err: '', success: '' });
+	const { err, success } = state;
 
 	const [name, setName] = useState('');
 	const [gender, setGender] = useState({
@@ -86,8 +90,12 @@ const BasicInfo = () => {
 		female: salons.gender.female ? salons.gender.female : false,
 		other: salons.gender.other ? salons.gender.other : false,
 	});
-	const [opening, setOpening] = useState(ParseTime(salons.timing.opening));
-	const [closing, setClosing] = useState(ParseTime(salons.timing.closing));
+	const [opening, setOpening] = useState(
+		salons.timing.opening ? ParseTime(salons.timing.opening) : new Date()
+	);
+	const [closing, setClosing] = useState(
+		salons.timing.closing ? ParseTime(salons.timing.closing) : new Date()
+	);
 	const [showcase, setShowcase] = useState('');
 	const [address, setAddress] = useState('');
 	const [postalCode, setPostalCode] = useState('');
@@ -154,8 +162,6 @@ const BasicInfo = () => {
 		}
 	};
 
-	console.log(showcase);
-
 	const handleUpdate = async () => {
 		try {
 			if (storetiming(opening) >= storetiming(closing)) {
@@ -196,12 +202,12 @@ const BasicInfo = () => {
 		}
 	};
 
-	console.log(state.err, state.success);
-
 	return (
 		<div>
 			<Paper className={classes.paper}>
 				<Container maxWidth='lg' className={classes.container}>
+					{success && <Success show={true} msg={success} />}
+					{err && <Errors show={true} msg={err} />}
 					<div className='w-full flex flex-col justify-center items-center'>
 						<Typography component='h1' variant='h5' className='mb-5'>
 							Basic Salon Info
@@ -241,6 +247,9 @@ const BasicInfo = () => {
 										}
 										label='Female'
 										labelPlacement='start'
+										onClick={() =>
+											setGender({ ...gender, female: !gender.female })
+										}
 									/>
 									<FormControlLabel
 										value='other'
