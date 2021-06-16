@@ -82,9 +82,9 @@ const BasicInfo = () => {
 
 	const [name, setName] = useState('');
 	const [gender, setGender] = useState({
-		male: null,
-		female: null,
-		other: null,
+		male: salons.gender.male ? salons.gender.male : false,
+		female: salons.gender.female ? salons.gender.female : false,
+		other: salons.gender.other ? salons.gender.other : false,
 	});
 	const [opening, setOpening] = useState(ParseTime(salons.timing.opening));
 	const [closing, setClosing] = useState(ParseTime(salons.timing.closing));
@@ -106,6 +106,56 @@ const BasicInfo = () => {
 		return `${hh}:${mm}`;
 	};
 
+	const changeShowcase = async (e) => {
+		e.preventDefault();
+		try {
+			const file = e.target.files[0];
+
+			if (!file)
+				return setState({
+					...state,
+					err: 'No file uploaded.',
+					success: '',
+				});
+
+			if (file.size > 3 * 1024 * 1024)
+				return setState({
+					...state,
+					err: 'Size should be less than 3MB.',
+					success: '',
+				});
+
+			if (
+				file.type !== 'image/jpeg' &&
+				file.type !== 'image/jpg' &&
+				file.type !== 'image/png'
+			)
+				return setState({
+					...state,
+					err: 'Incorrect format.',
+					success: '',
+				});
+
+			let formData = new FormData();
+			formData.append('file', file);
+
+			// setLoading(true);
+			const res = await axios.post('/api/avatar/user_avatar', formData, {
+				headers: {
+					'content-type': 'multipart/form-data',
+					Authorization: token,
+				},
+			});
+
+			// setLoading(false);
+			setShowcase(res.data.url);
+		} catch (err) {
+			setState({ ...state, err: err.response.data.msg, success: '' });
+		}
+	};
+
+	console.log(showcase);
+
 	const handleUpdate = async () => {
 		try {
 			if (storetiming(opening) >= storetiming(closing)) {
@@ -120,10 +170,12 @@ const BasicInfo = () => {
 				'/api/salon/basicsalonInfo',
 				{
 					name: name ? name : salons.name,
+					gender: gender,
 					timing: {
 						opening: opening ? storetiming(opening) : salons.timing.opening,
 						closing: closing ? storetiming(closing) : salons.timing.closing,
 					},
+					showcase: showcase ? showcase : salons.showcase,
 					location: {
 						address: address ? address : salons.location.address,
 						postalCode: postalCode ? postalCode : salons.location.postalCode,
@@ -177,29 +229,32 @@ const BasicInfo = () => {
 									</h3>
 									<FormControlLabel
 										value='male'
-										control={
-											<Checkbox color='primary' checked={salons.gender.male} />
-										}
+										control={<Checkbox color='primary' checked={gender.male} />}
 										label='Male'
 										labelPlacement='start'
+										onClick={() => setGender({ ...gender, male: !gender.male })}
 									/>
 									<FormControlLabel
 										value='female'
 										control={
-											<Checkbox
-												color='primary'
-												checked={salons.gender.female}
-											/>
+											<Checkbox color='primary' checked={gender.female} />
 										}
 										label='Female'
 										labelPlacement='start'
 									/>
 									<FormControlLabel
 										value='other'
-										control={<Checkbox color='primary' />}
+										control={
+											<Checkbox
+												color='primary'
+												checked={gender.other}
+												onClick={() =>
+													setGender({ ...gender, other: !gender.other })
+												}
+											/>
+										}
 										label='Other'
 										labelPlacement='start'
-										checked={salons.gender.other ? true : false}
 									/>
 								</Grid>
 								<Grid item xs={12} md={12} lg={6}>
@@ -241,10 +296,12 @@ const BasicInfo = () => {
 									<input
 										accept='image/*'
 										className={classes.input}
-										id='icon-button-file'
+										id='file'
 										type='file'
+										name='file'
+										onChange={changeShowcase}
 									/>
-									<label htmlFor='icon-button-file'>
+									<label htmlFor='file'>
 										<IconButton
 											color='primary'
 											aria-label='upload picture'
@@ -254,6 +311,16 @@ const BasicInfo = () => {
 											<PhotoCamera />
 										</IconButton>
 									</label>
+									<div className='w-full h-60 overflow-hidden rounded-lg'>
+										<img
+											style={{ width: '100%' }}
+											src={
+												showcase ? showcase : salons.showcase
+												// : 'https://ak.picdn.net/shutterstock/videos/351007/thumb/1.jpg'
+											}
+											alt=''
+										/>
+									</div>
 									<Divider />
 								</Grid>
 								<Grid item xs={12} md={12} lg={12}>
