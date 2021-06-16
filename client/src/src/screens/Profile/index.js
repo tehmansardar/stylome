@@ -18,7 +18,7 @@ import './style.css';
 import { makeStyles } from '@material-ui/core/styles';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { isLength } from '../../components/utils/validation/Validation';
 
@@ -124,7 +124,7 @@ const Profile = () => {
 		}
 	};
 
-	const updateUser = () => {
+	const updateUser = async () => {
 		try {
 			axios.patch(
 				'/api/user/update_user',

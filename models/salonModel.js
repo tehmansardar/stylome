@@ -14,13 +14,23 @@ const salonSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
-		gender: [
-			{
-				type: String,
+		gender: {
+			male: {
+				type: Boolean,
 				required: true,
-				default: null,
+				default: false,
 			},
-		],
+			female: {
+				type: Boolean,
+				required: true,
+				default: false,
+			},
+			other: {
+				type: Boolean,
+				required: true,
+				default: false,
+			},
+		},
 		showcase: {
 			type: String,
 			default: '',

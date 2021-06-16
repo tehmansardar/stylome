@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -17,6 +17,10 @@ import {
 	KeyboardTimePicker,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { getHours } from 'date-fns';
+
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -59,14 +63,88 @@ const useStyles = makeStyles((theme) => ({
 
 const drawerWidth = 240;
 
+function ParseTime(s) {
+	const d = new Date();
+	const c = s.split(':');
+	const hh = parseInt(c[0]);
+	const mm = parseInt(c[1]);
+	d.setHours(hh, mm);
+	return d;
+}
+
 const BasicInfo = () => {
 	const classes = useStyles();
 
-	const [selectedDate, setSelectedDate] = React.useState(new Date());
+	const token = useSelector((state) => state.token);
+	const salons = useSelector((state) => state.salons);
 
-	const handleDateChange = (date) => {
-		setSelectedDate(date);
+	const [state, setState] = useState({ err: '', success: '' });
+
+	const [name, setName] = useState('');
+	const [gender, setGender] = useState({
+		male: null,
+		female: null,
+		other: null,
+	});
+	const [opening, setOpening] = useState(ParseTime(salons.timing.opening));
+	const [closing, setClosing] = useState(ParseTime(salons.timing.closing));
+	const [showcase, setShowcase] = useState('');
+	const [address, setAddress] = useState('');
+	const [postalCode, setPostalCode] = useState('');
+	const [city, setCity] = useState('');
+	const [province, setProvince] = useState('');
+	const [country, setCountry] = useState('');
+	const [phone, setPhone] = useState('');
+	const [description, setDescription] = useState('');
+
+	const storetiming = (s) => {
+		let hh = s.getHours();
+		hh = hh > 10 ? hh : '0' + hh;
+		let mm = s.getMinutes();
+		mm = mm > 10 ? mm : '0' + mm;
+
+		return `${hh}:${mm}`;
 	};
+
+	const handleUpdate = async () => {
+		try {
+			if (storetiming(opening) >= storetiming(closing)) {
+				return setState({
+					...state,
+					err: 'Opening time should be less than Closing time',
+					success: '',
+				});
+			}
+
+			axios.patch(
+				'/api/salon/basicsalonInfo',
+				{
+					name: name ? name : salons.name,
+					timing: {
+						opening: opening ? storetiming(opening) : salons.timing.opening,
+						closing: closing ? storetiming(closing) : salons.timing.closing,
+					},
+					location: {
+						address: address ? address : salons.location.address,
+						postalCode: postalCode ? postalCode : salons.location.postalCode,
+						city: city ? city : salons.location.city,
+						province: province ? province : salons.location.province,
+						country: country ? country : salons.location.country,
+					},
+					phone: phone ? phone : salons.phone,
+					description: description ? description : salons.description,
+				},
+				{
+					headers: { Authorization: token },
+				}
+			);
+			setState({ ...state, err: '', success: 'Infomation has been updated' });
+		} catch (error) {
+			return setState({ ...state, err: error.response.data.msg, success: '' });
+		}
+	};
+
+	console.log(state.err, state.success);
 
 	return (
 		<div>
@@ -89,6 +167,8 @@ const BasicInfo = () => {
 										label='Salon Name'
 										name='name'
 										autoFocus
+										defaultValue={salons.name}
+										onChange={(e) => setName(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={12} md={12} lg={12}>
@@ -97,13 +177,20 @@ const BasicInfo = () => {
 									</h3>
 									<FormControlLabel
 										value='male'
-										control={<Checkbox color='primary' />}
+										control={
+											<Checkbox color='primary' checked={salons.gender.male} />
+										}
 										label='Male'
 										labelPlacement='start'
 									/>
 									<FormControlLabel
 										value='female'
-										control={<Checkbox color='primary' />}
+										control={
+											<Checkbox
+												color='primary'
+												checked={salons.gender.female}
+											/>
+										}
 										label='Female'
 										labelPlacement='start'
 									/>
@@ -112,17 +199,20 @@ const BasicInfo = () => {
 										control={<Checkbox color='primary' />}
 										label='Other'
 										labelPlacement='start'
+										checked={salons.gender.other ? true : false}
 									/>
 								</Grid>
 								<Grid item xs={12} md={12} lg={6}>
-									<h3 className={classes.fieldHeading}>Open At</h3>
+									{/* <h3 className={classes.fieldHeading}>Open At</h3> */}
 									<MuiPickersUtilsProvider utils={DateFnsUtils}>
 										<KeyboardTimePicker
+											ampm={false}
+											minutesStep='30'
 											margin='normal'
 											id='time-picker'
-											label='Time picker'
-											value={selectedDate}
-											onChange={handleDateChange}
+											label='Open At'
+											value={opening}
+											onChange={setOpening}
 											KeyboardButtonProps={{
 												'aria-label': 'change time',
 											}}
@@ -130,16 +220,16 @@ const BasicInfo = () => {
 									</MuiPickersUtilsProvider>
 								</Grid>
 								<Grid item xs={12} md={12} lg={6}>
-									<h3 className={classes.fieldHeading}>Close At</h3>
+									{/* <h3 className={classes.fieldHeading}>Close At</h3> */}
 									<MuiPickersUtilsProvider utils={DateFnsUtils}>
 										<KeyboardTimePicker
 											ampm={false}
 											minutesStep='30'
 											margin='normal'
 											id='time-picker'
-											label='Time picker'
-											value={selectedDate}
-											onChange={handleDateChange}
+											label='Close At'
+											value={closing}
+											onChange={setClosing}
 											KeyboardButtonProps={{
 												'aria-label': 'change time',
 											}}
@@ -176,6 +266,8 @@ const BasicInfo = () => {
 										id='address'
 										label='Salon Address'
 										name='address'
+										defaultValue={salons.location.address}
+										onChange={(e) => setAddress(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={6} md={6} lg={6}>
@@ -184,9 +276,11 @@ const BasicInfo = () => {
 										margin='normal'
 										required
 										fullWidth
-										id='postalcode'
+										id='postalCode'
 										label='Postal Code'
-										name='postalcode'
+										name='postalCode'
+										defaultValue={salons.location.postalCode}
+										onChange={(e) => setPostalCode(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={6} md={6} lg={6}>
@@ -198,6 +292,8 @@ const BasicInfo = () => {
 										id='city'
 										label='City'
 										name='city'
+										defaultValue={salons.location.city}
+										onChange={(e) => setCity(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={6} md={6} lg={6}>
@@ -209,6 +305,8 @@ const BasicInfo = () => {
 										id='city'
 										label='Province'
 										name='province'
+										defaultValue={salons.location.province}
+										onChange={(e) => setProvince(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={6} md={6} lg={6}>
@@ -220,11 +318,12 @@ const BasicInfo = () => {
 										id='country'
 										label='Country'
 										name='country'
+										defaultValue={salons.location.country}
+										onChange={(e) => setCountry(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={12} md={12} lg={6}>
 									<label className={classes.fieldHeading}>Contact No</label>
-
 									<TextField
 										// variant='outlined'
 										margin='normal'
@@ -232,12 +331,13 @@ const BasicInfo = () => {
 										fullWidth
 										id='phone'
 										label='Contact Number'
-										name='name'
+										name='phone'
+										defaultValue={salons.phone}
+										onChange={(e) => setPhone(e.target.value)}
 									/>
 								</Grid>
 								<Grid item xs={12} md={12} lg={12}>
 									<label className={classes.fieldHeading}>About Salon</label>
-
 									<TextField
 										variant='filled'
 										margin='normal'
@@ -248,13 +348,15 @@ const BasicInfo = () => {
 										name='description'
 										size='medium'
 										className={classes.description}
-										rowsMax='20'
+										defaultValue={salons.description}
+										onChange={(e) => setDescription(e.target.value)}
 									/>
 								</Grid>
 								<Button
 									className={classes.button}
 									variant='contained'
 									color='primary'
+									onClick={handleUpdate}
 								>
 									Save
 								</Button>

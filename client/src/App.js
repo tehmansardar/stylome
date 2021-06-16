@@ -83,7 +83,7 @@ function App() {
 			};
 			getSalon();
 		}
-	}, [token]);
+	}, [token, dispatch]);
 
 	return (
 		<div className='App'>
