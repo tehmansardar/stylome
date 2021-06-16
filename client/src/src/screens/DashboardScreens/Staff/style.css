@@ -1,0 +1,7 @@
+.staff .MuiTextField-root,
+.staff .MuiInputBase-root {
+	margin-right: 10px;
+}
+.MuiInputBase-root.service {
+	width: 150px;
+}
