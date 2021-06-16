@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
 import ServiceModal from './ServiceModal';
+import ServicesList from './ServicesList';
 
 const useStyles = makeStyles((theme) => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -79,7 +80,7 @@ const Services = () => {
 						</Typography>
 					</div>
 					<Grid item xs={12} md={12} lg={12}>
-						<div className=''>
+						<div>
 							<label htmlFor='' className='mr-2'>
 								Add New Serivce
 							</label>
@@ -95,6 +96,9 @@ const Services = () => {
 					</Grid>
 					<Grid item xs={12} md={12} lg={12}>
 						<ServiceModal open={open} onClose={handleClose} />
+					</Grid>
+					<Grid item xs={12} md={12} lg={12}>
+						<ServicesList />
 					</Grid>
 				</Container>
 			</Paper>
