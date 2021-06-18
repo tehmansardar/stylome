@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Container, Grid } from '@material-ui/core';
@@ -11,20 +11,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+
+import AddStaff from './AddStaff';
 
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -85,7 +74,7 @@ const headCells = [
 		label: 'Name',
 	},
 	{
-		id: 'calories',
+		id: 'Service',
 		numeric: true,
 		disablePadding: false,
 		label: 'Specialized',
@@ -112,14 +101,14 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding='checkbox'>
+				{/* <TableCell padding='checkbox'>
 					<Checkbox
 						indeterminate={numSelected > 0 && numSelected < rowCount}
 						checked={rowCount > 0 && numSelected === rowCount}
 						onChange={onSelectAllClick}
 						inputProps={{ 'aria-label': 'select all desserts' }}
 					/>
-				</TableCell>
+				</TableCell> */}
 				{headCells.map((headCell) => (
 					<TableCell
 						key={headCell.id}
@@ -145,7 +134,6 @@ function EnhancedTableHead(props) {
 		</TableHead>
 	);
 }
-
 EnhancedTableHead.propTypes = {
 	classes: PropTypes.object.isRequired,
 	numSelected: PropTypes.number.isRequired,
@@ -205,15 +193,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Staff = () => {
-	const services = useSelector((state) => state.salons.services);
-
-	const [service, setService] = React.useState('');
-	const handleChange = (event) => {
-		setService(event.target.value);
-	};
-
-	console.log(service);
-
 	const classes = useStyles();
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
@@ -279,54 +258,7 @@ const Staff = () => {
 		const classes = useToolbarStyles();
 		const { numSelected } = props;
 
-		return (
-			<Toolbar
-				className={clsx(classes.root, {
-					[classes.highlight]: numSelected > 0,
-				})}
-			>
-				{/* <Typography
-					className={classes.title}
-					variant='h6'
-					id='tableTitle'
-					component='div'
-				>
-					Stylome Staff
-				</Typography> */}
-
-				<div>
-					<form className='staff flex'>
-						<TextField
-							id='outlined-basic'
-							label='Add New staff'
-							className={classes.textField}
-							// size='small'
-							variant='outlined'
-						/>
-
-						<Select
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={service}
-							onChange={handleChange}
-							// size='small'
-							// autoWidth='false'
-							className='service'
-							variant='outlined'
-						>
-							<MenuItem value=''>Add Service</MenuItem>
-							{services.map((service) => (
-								<MenuItem value={service._id}>{service.service}</MenuItem>
-							))}
-						</Select>
-
-						<Button variant='contained' color='primary' size='small'>
-							Add Staff
-						</Button>
-					</form>
-				</div>
-			</Toolbar>
-		);
+		return <AddStaff />;
 	};
 
 	EnhancedTableToolbar.propTypes = {
@@ -371,12 +303,12 @@ const Staff = () => {
 											key={row.name}
 											selected={isItemSelected}
 										>
-											<TableCell padding='checkbox'>
+											{/* <TableCell padding='checkbox'>
 												<Checkbox
 													checked={isItemSelected}
 													inputProps={{ 'aria-labelledby': labelId }}
 												/>
-											</TableCell>
+											</TableCell> */}
 											<TableCell
 												component='th'
 												id={labelId}

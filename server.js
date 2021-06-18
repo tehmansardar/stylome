@@ -26,6 +26,7 @@ app.use('/api/user', require('./routes/userRoutes'));
 app.use('/api/avatar', require('./routes/userAvatarRoute'));
 app.use('/api/salon', require('./routes/salonRoutes'));
 app.use('/api/visit', require('./routes/visitRoutes'));
+app.use('/api/search', require('./routes/searchRoutes'));
 
 app.use('/', (req, res, next) => {
 	res.json({ msg: 'Hello everyone' });
