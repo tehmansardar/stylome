@@ -36,12 +36,12 @@ const MobileSearch = () => {
 	const salonChange = async (e) => {
 		setState({
 			...state,
+			show: true,
 			loadSalon: true,
 			salon: e.target.value,
 			resultSalon: [],
 		});
 
-		setState({ ...state, show: true });
 		const res = await axios.post('/api/search/saerchbyname', {
 			salon: salon,
 		});
@@ -78,12 +78,14 @@ const MobileSearch = () => {
 		e.preventDefault();
 		// search-results
 		// const salonId = parseInt(e.currentTarget.getAttribute('data-id'));
-		history.push({
-			pathname: '/search-results',
-			search: `?${type && 'type=' + type}${type && location ? '&' : ''}${
-				location && 'location=' + location
-			}`,
-		});
+		if (type || location) {
+			history.push({
+				pathname: '/search-results',
+				search: `?${type && 'type=' + type}${type && location ? '&' : ''}${
+					location && 'location=' + location
+				}`,
+			});
+		}
 	};
 
 	const firstStep = (
@@ -100,7 +102,13 @@ const MobileSearch = () => {
 				/>
 				<IconButton
 					onClick={() =>
-						setState({ ...state, salon: '', resultSalon: [], loadSalon: false })
+						setState({
+							...state,
+							salon: '',
+							resultSalon: [],
+							loadSalon: false,
+							show: false,
+						})
 					}
 					className={`${salon ? 'visible' : 'invisible'}`}
 				>
@@ -125,7 +133,8 @@ const MobileSearch = () => {
 					name='type'
 					placeholder='Searh by Type'
 					value={type}
-					onChange={handleChage}
+					onClick={() => setState({ ...state, step: 2, show: true })}
+					// onChange={handleChage}
 				/>
 				<IconButton
 					onClick={() => setState({ ...state, type: '' })}
@@ -161,7 +170,7 @@ const MobileSearch = () => {
 					name='location'
 					placeholder='Searh by location'
 					value={location}
-					onChange={handleChage}
+					onChange={(e) => setState({ ...state, location: e.target.value })}
 				/>
 				<IconButton
 					onClick={() => setState({ ...state, location: '' })}
@@ -226,21 +235,62 @@ const MobileSearch = () => {
 
 			{/* Type dropdown */}
 			<div
-				className={`${type ? (show ? 'visible' : 'invisible') : 'invisible'}`}
+				className={`${
+					step === 2 ? (show ? 'visible' : 'invisible') : 'invisible'
+				}`}
 			>
 				<div className='m-suggestions m-suggestions-name bg-white mt-1 w-2/4 h-64 absolute rounded-xl overflow-scroll'>
 					<ul className='p-5'>
 						<li
-							data-name='salon'
+							onClick={() => {
+								setState({
+									...state,
+									type: 'male',
+									show: false,
+								});
+							}}
+							key='1'
+							data-name='male'
 							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
 							// onClick={selectDropDownvalue}
 						>
-							<img
-								className='w-16 rounded-lg mr-2'
-								src='https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-								alt='Salon'
-							/>
-							<p>Salon</p>
+							<p>
+								<b>Male</b>
+							</p>
+						</li>
+						<li
+							onClick={() => {
+								setState({
+									...state,
+									type: 'female',
+									show: false,
+								});
+							}}
+							key='2'
+							data-name='female'
+							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+							// onClick={selectDropDownvalue}
+						>
+							<p>
+								<b>Female</b>
+							</p>
+						</li>
+						<li
+							onClick={() => {
+								setState({
+									...state,
+									type: 'other',
+									show: false,
+								});
+							}}
+							key='3'
+							data-name='other'
+							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+							// onClick={selectDropDownvalue}
+						>
+							<p>
+								<b>Other</b>
+							</p>
 						</li>
 					</ul>
 				</div>

@@ -209,96 +209,98 @@ const HomeSearch = () => {
 					<div
 						className={`${
 							showS ? (salon ? 'visible' : 'invisible') : 'invisible'
-						}`}
+						} suggestions suggestions-name bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll`}
 					>
-						<div className='suggestions suggestions-name bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll'>
-							<ul className='p-5'>
-								{state.resultSalon.map((result) => (
-									<li
-										key={result._id}
-										data-id={result._id}
-										className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
-										onClick={clickSalonSuggestion}
-									>
-										<img
-											className='w-16 rounded-lg mr-2'
-											src={
-												result.showcase
-													? result.showcase
-													: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
-											}
-											alt={result.name}
-										/>
-										<p>{result.name}</p>
-									</li>
-								))}
-							</ul>
-						</div>
+						<ul className='p-5'>
+							{state.resultSalon.map((result) => (
+								<li
+									key={result._id}
+									data-id={result._id}
+									className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+									onClick={clickSalonSuggestion}
+								>
+									<img
+										className='w-16 rounded-lg mr-2'
+										src={
+											result.showcase
+												? result.showcase
+												: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
+										}
+										alt={result.name}
+									/>
+									<p>{result.name}</p>
+								</li>
+							))}
+						</ul>
 					</div>
-					<div className={`${showT ? 'visible' : 'invisible'}`}>
-						<div className='suggestions suggestions-type bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll'>
-							<li
-								onClick={() => {
-									setState({
-										...state,
-										show: false,
-										showS: false,
-										showT: false,
-										showL: false,
-										type: 'male',
-									});
-								}}
-								className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
-							>
-								{/* <img
+
+					<div
+						className={`${
+							showT ? 'visible' : 'invisible'
+						} suggestions suggestions-type bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll`}
+					>
+						<li
+							onClick={() => {
+								setState({
+									...state,
+									show: false,
+									showS: false,
+									showT: false,
+									showL: false,
+									type: 'male',
+								});
+							}}
+							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+						>
+							{/* <img
 								className='w-16 rounded-lg mr-2'
 								src='https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 								alt='Stylo Salon'
 							/> */}
-								<p>Male</p>
-							</li>
-							<li
-								onClick={() => {
-									setState({
-										...state,
-										show: false,
-										showS: false,
-										showT: false,
-										showL: false,
-										type: 'female',
-									});
-								}}
-								className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
-							>
-								{/* <img
+							<p>Male</p>
+						</li>
+						<li
+							onClick={() => {
+								setState({
+									...state,
+									show: false,
+									showS: false,
+									showT: false,
+									showL: false,
+									type: 'female',
+								});
+							}}
+							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+						>
+							{/* <img
 								className='w-16 rounded-lg mr-2'
 								src='https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 								alt='Stylo Salon'
 							/> */}
-								<p>Female</p>
-							</li>
-							<li
-								onClick={() => {
-									setState({
-										...state,
-										show: false,
-										showS: false,
-										showT: false,
-										showL: false,
-										type: 'other',
-									});
-								}}
-								className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
-							>
-								{/* <img
+							<p>Female</p>
+						</li>
+						<li
+							onClick={() => {
+								setState({
+									...state,
+									show: false,
+									showS: false,
+									showT: false,
+									showL: false,
+									type: 'other',
+								});
+							}}
+							className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+						>
+							{/* <img
 								className='w-16 rounded-lg mr-2'
 								src='https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 								alt='Stylo Salon'
 							/> */}
-								<p>Other</p>
-							</li>
-						</div>
+							<p>Other</p>
+						</li>
 					</div>
+
 					<div className='suggestions hidden suggestions-location bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll'>
 						<li className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'>
 							<img
