@@ -29,7 +29,7 @@ export default function Deposits() {
 			<Typography>HBL Pakistan</Typography>
 			<Typography>xxxxx-xxxx-xxx</Typography>
 			<Typography color='' className={classes.depositContext}>
-				Salon expiry date is 15 March, 2019
+				Salon expiry date is 15 July, 2021
 			</Typography>
 		</React.Fragment>
 	);

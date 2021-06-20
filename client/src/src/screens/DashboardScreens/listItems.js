@@ -36,14 +36,14 @@ export const mainListItems = (
 				<ListItemText primary='Dashboard' />
 			</ListItem>
 		</Link>
-		<Link to='/dashboard/customers'>
+		{/* <Link to='/dashboard/customers'>
 			<ListItem button>
 				<ListItemIcon>
 					<AirlineSeatReclineNormalIcon />
 				</ListItemIcon>
 				<ListItemText primary='Customers' />
 			</ListItem>
-		</Link>
+		</Link> */}
 		<Link to='/dashboard/staff'>
 			<ListItem button>
 				<ListItemIcon>

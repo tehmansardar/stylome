@@ -20,11 +20,19 @@ const searchCtrl = {
 			return res.status(500).json({ msg: err.message });
 		}
 	},
-	saerchByType: async (req, res) => {
+	saerch: async (req, res) => {
 		try {
-			const { type } = req.body;
-			// const salons = await Salon.find({ name: new RegExp(salon, 'i') });
-			// res.json(salons);
+			const { type, location } = req.body;
+
+			const salons = await Salon.find({
+				$or: [
+					{ 'gender{type}': true },
+					{ 'location.address': 'Lahore, Pakistan' },
+				],
+			})
+				.populate('staff')
+				.populate('services');
+			res.json(salons);
 		} catch (error) {
 			return res.status(500).json({ msg: err.message });
 		}

@@ -146,5 +146,15 @@ const salonCtrl = {
 			res.status(500).json({ msg: error.message });
 		}
 	},
+	getStaff: async (req, res) => {
+		try {
+			const staff = await Staff.find({ salon: req.salon.id }).populate(
+				'services'
+			);
+			return res.status(200).json(staff);
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
 };
 module.exports = salonCtrl;

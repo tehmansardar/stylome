@@ -16,9 +16,9 @@ const userAvatarCtrl = {
 				file.tempFilePath,
 				{
 					folder: 'avatar',
-					width: 200,
-					height: 200,
-					crop: 'fill',
+					// width: 200,
+					// height: 200,
+					// crop: 'fill',
 				},
 				async (err, result) => {
 					if (err) throw err;

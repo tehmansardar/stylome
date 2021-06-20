@@ -3,6 +3,8 @@ import './style.css';
 
 import { Link } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 import { Button } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -16,8 +18,10 @@ import Fade from '@material-ui/core/Fade';
 
 import VisitModal from '../VisitModal';
 
-const Salon = () => {
+const Salon = ({ salon }) => {
 	// Modal
+
+	const signin = useSelector((state) => state.auth.isLogged);
 
 	const useStyles = makeStyles((theme) => ({
 		modal: {
@@ -50,22 +54,26 @@ const Salon = () => {
 			<div className='Salon'>
 				<div className='salon-left'>
 					<img
-						src='https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-						alt='salon name'
+						src={
+							salon.showcase
+								? salon.showcase
+								: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
+						}
+						alt={salon.name}
 					/>
 					<div>
 						<div className='flex justify-between items-center'>
 							<div>
-								<Link to='/salon-info'>
-									<h3>Salon Name</h3>
+								<Link to={`/salon-info/${salon._id}`}>
+									<h3>{salon.name}</h3>
 								</Link>
-								<p>4 barbers · 3 Messures</p>
+								<p> Providing {salon.services.length} services</p>
 								<p>
-									<span>Wifi · Air Condition</span>
+									<span>{salon.staff.length} Staff members</span>
 								</p>
-								<span className='rating'>
+								{/* <span className='rating'>
 									<StarIcon /> (18)
-								</span>
+								</span> */}
 							</div>
 							<div className='m-visit-btn-hide lg:hidden xl:hidden '>
 								<Button
@@ -74,6 +82,7 @@ const Salon = () => {
 									color='primary'
 									size='small'
 									onClick={handleOpen}
+									data-id={salon._id}
 								>
 									Schedule Visit
 								</Button>
@@ -82,11 +91,14 @@ const Salon = () => {
 					</div>
 				</div>
 				<div className='salon-right'>
-					<FavoriteBorderIcon />
-					<Button className='schedule-visit' onClick={handleOpen}>
-						Schedule Visit
-					</Button>
-					<Button className='salon-status'>Open Now</Button>
+					{/* <FavoriteBorderIcon /> */}
+					{signin && (
+						<Button className='schedule-visit' onClick={handleOpen}>
+							Schedule Visit
+						</Button>
+					)}
+
+					{/* <Button className='salon-status'>Open Now</Button> */}
 				</div>
 			</div>
 			<hr className='line' />
@@ -105,7 +117,7 @@ const Salon = () => {
 				}}
 			>
 				<Fade in={open}>
-					<VisitModal />
+					<VisitModal salon={salon} />
 				</Fade>
 			</Modal>
 			{/* End Modal */}

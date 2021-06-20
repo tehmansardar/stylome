@@ -1,11 +1,12 @@
 import React from 'react';
 import './style.css';
 import Salon from '../Salon';
-const SalonsList = () => {
+const SalonsList = ({ salons }) => {
 	return (
 		<div className='SalonsList'>
-			<Salon />
-			<Salon />
+			{salons.map((salon) => (
+				<Salon salon={salon} />
+			))}
 		</div>
 	);
 };

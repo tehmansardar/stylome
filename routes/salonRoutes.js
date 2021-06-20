@@ -59,4 +59,13 @@ router.post('/addService', auth, salonAuth, salonCtrl.addService);
  */
 router.post('/newstaff', auth, salonAuth, salonCtrl.newStaff);
 
+/**
+ * @route   GET /api/salon/getStaff
+ * @desc    Add new staff to salon with specialization of services can provide more than one services but opening time and closing time is mendatory to register user
+ * @access  Private
+ * @params	Authorization
+ * @body    req.salon
+ */
+router.get('/getStaff', auth, salonAuth, salonCtrl.getStaff);
+
 module.exports = router;

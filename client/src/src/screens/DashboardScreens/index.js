@@ -154,11 +154,11 @@ const Dashboard = () => {
 					>
 						stylo<span className={classes.logo}>me</span>
 					</Typography>
-					<IconButton color='inherit'>
+					{/* <IconButton color='inherit'>
 						<Badge badgeContent={4} color='secondary'>
 							<NotificationsIcon />
 						</Badge>
-					</IconButton>
+					</IconButton> */}
 				</Toolbar>
 			</AppBar>
 			<Drawer

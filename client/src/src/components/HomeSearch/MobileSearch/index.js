@@ -40,24 +40,20 @@ const MobileSearch = () => {
 			salon: e.target.value,
 			resultSalon: [],
 		});
-		try {
-			if (salon.length > 2) {
-				setState({ ...state, show: true });
-				const res = await axios.post('/api/search/saerchbyname', {
-					salon: salon,
-				});
 
-				setState({
-					...state,
-					err: '',
-					success: '',
-					resultSalon: res.data,
-					loadSalon: false,
-				});
-			}
-		} catch (error) {
-			setState({ ...state, err: error.response.data.msg, success: '' });
-		}
+		setState({ ...state, show: true });
+		const res = await axios.post('/api/search/saerchbyname', {
+			salon: salon,
+		});
+
+		setState({
+			...state,
+			err: '',
+			success: '',
+			resultSalon: res.data,
+			loadSalon: false,
+			salon: e.target.value,
+		});
 	};
 
 	const clickSalonSuggestion = (e) => {
@@ -206,6 +202,7 @@ const MobileSearch = () => {
 						<ul className='p-5'>
 							{state.resultSalon.map((result) => (
 								<li
+									key={result._id}
 									data-id={result._id}
 									className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
 									onClick={clickSalonSuggestion}

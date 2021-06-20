@@ -11,7 +11,7 @@ import ServicesCarousel from './ServicesCarousel';
 import ScheduleSlot from './ScheduleSlot';
 import './style.css';
 
-const VisitModal = () => {
+const VisitModal = ({ salon }) => {
 	const [nextStep, setNextStep] = useState(true);
 
 	const nextStepModal = () => {
@@ -25,7 +25,7 @@ const VisitModal = () => {
 			</h1>
 			<div className='relative bg-white rounded-3xl pb-10 h-full'>
 				<div className='bg-white w-full'>
-					<div className='time-price flex flex-row justify-between px-10 py-2 text-gray-700'>
+					{/* <div className='time-price flex flex-row justify-between px-10 py-2 text-gray-700'>
 						<span>
 							<AccessTimeIcon />
 							1hr 30min
@@ -34,14 +34,14 @@ const VisitModal = () => {
 							<LocalOfferIcon />
 							$20
 						</span>
-					</div>
-					{nextStep ? <ServicesCarousel /> : <ScheduleSlot />}
+					</div> */}
+					{nextStep ? <ServicesCarousel salon={salon} /> : <ScheduleSlot />}
 				</div>
 
 				<div className='navigate-modal flex justify-end	absolute bottom-3 right-0 pr-12'>
 					{nextStep ? (
 						<>
-							<div className='mr-2'>
+							{/* <div className='mr-2'>
 								<Button
 									variant='contained'
 									color='primary'
@@ -51,7 +51,7 @@ const VisitModal = () => {
 								>
 									Cancel
 								</Button>
-							</div>
+							</div> */}
 							<div>
 								<Button
 									variant='contained'

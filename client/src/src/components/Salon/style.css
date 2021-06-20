@@ -37,6 +37,7 @@
 		display: flex;
 	}
 	.salon-left img {
+		min-width: 40%;
 		width: 40%;
 	}
 	.salon-left div {

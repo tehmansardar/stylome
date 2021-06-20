@@ -9,50 +9,55 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
 // Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-	return { id, date, name, shipTo, paymentMethod, amount };
+function createData(id, date, name, service, staff, slots, status) {
+	return { id, date, name, service, staff, slots, status };
 }
 
 const rows = [
 	createData(
 		0,
-		'16 Mar, 2019',
+		'19 June, 2021',
 		'Elvis Presley',
-		'Tupelo, MS',
-		'VISA ⠀•••• 3719',
-		312.44
+		'Hair cut',
+		'Zeeshan',
+		'09:00 10:00',
+		'Incoming'
 	),
 	createData(
 		1,
-		'16 Mar, 2019',
+		'19 June, 2021',
 		'Paul McCartney',
-		'London, UK',
-		'VISA ⠀•••• 2574',
-		866.99
+		'Beard',
+		'Fahad',
+		'10:00 11:00',
+		'Incoming'
 	),
 	createData(
 		2,
-		'16 Mar, 2019',
+		'19 June, 2021',
 		'Tom Scholz',
-		'Boston, MA',
-		'MC ⠀•••• 1253',
-		100.81
+		'Hair cut',
+		'Iqra',
+		'11:00 12:00',
+		'Incoming'
 	),
 	createData(
 		3,
-		'16 Mar, 2019',
+		'19 June, 2021',
 		'Michael Jackson',
-		'Gary, IN',
-		'AMEX ⠀•••• 2000',
-		654.39
+		'Massage',
+		'Kashif',
+		'12:00 01:00',
+		'Incoming'
 	),
 	createData(
 		4,
-		'15 Mar, 2019',
+		'19 June, 2021',
 		'Bruce Springsteen',
-		'Long Branch, NJ',
-		'VISA ⠀•••• 5919',
-		212.79
+		'Massage',
+		'Habib',
+		'01:00 02:00',
+		'Incoming'
 	),
 ];
 
@@ -93,19 +98,19 @@ export default function Orders() {
 						<TableRow key={row.id}>
 							<TableCell>{row.date}</TableCell>
 							<TableCell>{row.name}</TableCell>
-							<TableCell>{row.shipTo}</TableCell>
-							<TableCell>{row.shipTo}</TableCell>
-							<TableCell>{row.paymentMethod}</TableCell>
-							<TableCell align='right'>{row.amount}</TableCell>
+							<TableCell>{row.service}</TableCell>
+							<TableCell>{row.staff}</TableCell>
+							<TableCell>{row.slots}</TableCell>
+							<TableCell align='right'>{row.status}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
 			</Table>
-			<div className={classes.seeMore}>
+			{/* <div className={classes.seeMore}>
 				<Link color='primary' href='#' onClick={preventDefault}>
 					See more orders
 				</Link>
-			</div>
+			</div> */}
 		</React.Fragment>
 	);
 }

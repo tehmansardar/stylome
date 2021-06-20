@@ -28,7 +28,7 @@
 	.right-column {
 		display: flex;
 		flex-direction: column;
-		background: lightblue;
+		background: transparent;
 		flex: 0.4;
 	}
 }

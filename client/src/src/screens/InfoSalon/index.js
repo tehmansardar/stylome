@@ -21,6 +21,12 @@ const InfoScreen = () => {
 	const SalonId = useParams('salonId');
 	const [salon, setSalon] = useState('');
 
+	// useEffect(() => {
+	// 	setTimeout(function () {
+	// 		setLoading(false);
+	// 	}, 2000);
+	// }, []);
+
 	useEffect(() => {
 		const salonInfo = async () => {
 			try {
@@ -28,6 +34,7 @@ const InfoScreen = () => {
 					`/api/search/salonfullinfo/${SalonId.salonId}`
 				);
 				setSalon(res.data);
+				setLoading(false);
 			} catch (error) {
 				return console.log(error.message);
 			}
@@ -36,12 +43,6 @@ const InfoScreen = () => {
 	}, []);
 
 	console.log(salon);
-
-	useEffect(() => {
-		setTimeout(function () {
-			setLoading(false);
-		}, 400);
-	}, []);
 
 	return (
 		<>
@@ -105,7 +106,7 @@ const InfoScreen = () => {
 						<hr className='hr-line' />
 
 						{/* map */}
-						<div className='map'></div>
+						{/* <div className='map'></div> */}
 					</div>
 				</>
 			)}
