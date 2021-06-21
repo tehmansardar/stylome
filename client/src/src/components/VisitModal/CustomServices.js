@@ -1,27 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Circle from '../../../assets/images/circle.svg';
+
+import { useDispatch } from 'react-redux';
+import { dispatchCustomService } from '../../../redux/actions/visitActions';
 
 const CustomServices = ({ service }) => {
 	const [state, setState] = useState({
 		primary: true,
 		secondary: false,
 		tertiary: false,
+		data: service.customServices.primary,
 	});
 
-	const { primary, secondary, tertiary } = state;
+	const { primary, secondary, tertiary, data } = state;
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const getCustomService = (data) => {
+			return dispatch(dispatchCustomService(data));
+		};
+		getCustomService(data);
+	}, [dispatch, data]);
 
 	return (
 		<div className='flex flex-col py-3 px-5'>
 			<h2 className='uppercase font-semibold'>Choose Serivces</h2>
 			<div className='custom-services-list flex flex-row justify-center my-3'>
 				<div
-					onClick={() => {
+					data-primary={service.customServices.primary}
+					onClick={(e) => {
 						setState({
 							...state,
 							primary: true,
 							secondary: false,
 							tertiary: false,
+							data: service.customServices.primary,
 						});
+						// console.log(e.currentTarget.getAttribute('data-primary'));
 					}}
 					className={`${
 						primary ? 'customServiceSelect' : ''
@@ -44,6 +60,7 @@ const CustomServices = ({ service }) => {
 							primary: false,
 							secondary: true,
 							tertiary: false,
+							data: service.customServices.secondary,
 						});
 					}}
 					className={`${
@@ -67,6 +84,7 @@ const CustomServices = ({ service }) => {
 							primary: false,
 							secondary: false,
 							tertiary: true,
+							data: service.customServices.tertiary,
 						});
 					}}
 					className={`${

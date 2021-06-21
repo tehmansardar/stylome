@@ -12,6 +12,9 @@ import CustomServices from './CustomServices';
 
 import HairImage from '../../../assets/images/hair-cut.svg';
 
+import { useDispatch } from 'react-redux';
+import { dispatchServiceId } from '../../../redux/actions/visitActions';
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -60,8 +63,11 @@ const ServicesCarousel = (salon) => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	let i = 0;
-	console.log(salon.salon);
+
+	const dispatch = useDispatch();
+	const serviceId = (id) => {
+		return dispatch(dispatchServiceId(id));
+	};
 
 	return (
 		<div>
@@ -79,7 +85,11 @@ const ServicesCarousel = (salon) => {
 							aria-label='scrollable auto tabs example'
 						>
 							{salon.salon.services.map((service, index) => (
-								<Tab label={service.service} {...a11yProps(index)} />
+								<Tab
+									label={service.service}
+									{...a11yProps(index)}
+									onClick={() => serviceId(service._id)}
+								/>
 							))}
 							{/* <Tab label='Item Two' {...a11yProps(1)} />
 							<Tab label='Item Three' {...a11yProps(2)} />

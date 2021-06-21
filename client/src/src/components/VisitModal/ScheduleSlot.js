@@ -3,6 +3,10 @@ import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Chip, Avatar } from '@material-ui/core';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import axios from 'axios';
+
 const members = [
 	{
 		id: 1,
@@ -219,12 +223,30 @@ const members = [
 const ScheduleSlot = () => {
 	const [loading, setLoading] = useState(true);
 	const [selectMember, setSelectMember] = useState(1);
+	const [staff, setStaff] = useState([]);
+
+	const token = useSelector((state) => state.token);
+	const visit = useSelector((state) => state.visit);
 
 	useEffect(() => {
-		setTimeout(function () {
+		const staffAndSlots = async () => {
+			const res = await axios.post(
+				'/api/visit/staffforvisit',
+				{
+					service: visit.service,
+				},
+				{
+					headers: { Authorization: token },
+				}
+			);
+			// console.log(res.data);
+			setStaff(res.data);
 			setLoading(false);
-		}, 400);
-	}, []);
+		};
+		staffAndSlots();
+	}, [token, visit]);
+
+	console.log(staff);
 
 	const handleSelectMember = (e) => {
 		const chnageMemeber = e.currentTarget.getAttribute('data-id');
@@ -250,28 +272,38 @@ const ScheduleSlot = () => {
 			) : (
 				<>
 					<h2 className='mb-2'>Choose person for service</h2>
-					<ul className='flex flex-row flex-wrap'>
-						{members.map((member, i) => {
-							return (
-								<li
-									key={i}
-									data-id={member.id}
-									className='list-none mr-1 mb-1'
-									onClick={handleSelectMember}
-								>
-									<Chip
-										variant={
-											selectMember === member.id ? 'default' : 'outlined'
-										}
-										label={member.name}
-										clickable={true}
-										color={selectMember === member.id ? 'primary' : 'secondary'}
-										avatar={<Avatar>{member.name.charAt(0)}</Avatar>}
-									/>
-								</li>
-							);
-						})}
-					</ul>
+					{staff.length > 0 ? (
+						<>
+							<ul className='flex flex-row flex-wrap'>
+								{staff.map((stafff, index) => {
+									return (
+										<li
+											key={index}
+											data-id={stafff._id}
+											className='list-none mr-1 mb-1'
+											onClick={handleSelectMember}
+										>
+											<Chip
+												variant={
+													selectMember === stafff._id ? 'default' : 'outlined'
+												}
+												label={stafff.name}
+												clickable={true}
+												color={
+													selectMember === stafff._id ? 'primary' : 'secondary'
+												}
+												avatar={<Avatar>{stafff.name.charAt(0)}</Avatar>}
+											/>
+										</li>
+									);
+								})}
+							</ul>
+						</>
+					) : (
+						<>
+							<p>No Staff Member</p>
+						</>
+					)}
 
 					{/* Schedule Time */}
 					<div className='mt-5'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Button } from '@material-ui/core';
 
@@ -11,12 +11,32 @@ import ServicesCarousel from './ServicesCarousel';
 import ScheduleSlot from './ScheduleSlot';
 import './style.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatchSalonId } from '../../../redux/actions/visitActions';
+
 const VisitModal = ({ salon }) => {
 	const [nextStep, setNextStep] = useState(true);
 
 	const nextStepModal = () => {
-		setNextStep(!nextStep);
+		setNextStep(false);
 	};
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const salonid = () => {
+			dispatch(dispatchSalonId(salon._id));
+		};
+		salonid();
+	}, [dispatch]);
+
+	const visit = useSelector((state) => state.visit);
+
+	useEffect(() => {
+		if (!visit.service || !visit.customService) {
+			setNextStep(true);
+		}
+	}, [nextStep]);
 
 	return (
 		<div className='VisitModal sm:w-full md:w-10/12 lg:w-2/5  w-10/12 rounded-3xl h-5/6	'>

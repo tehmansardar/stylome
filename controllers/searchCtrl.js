@@ -24,15 +24,39 @@ const searchCtrl = {
 		try {
 			const { type, location } = req.body;
 
-			const salons = await Salon.find({
-				$or: [
-					{ 'gender{type}': true },
-					{ 'location.address': 'Lahore, Pakistan' },
-				],
-			})
-				.populate('staff')
-				.populate('services');
-			res.json(salons);
+			if (type === 'male') {
+				const salons = await Salon.find({
+					$and: [
+						{ 'gender.male': true },
+						{ 'location.address': new RegExp(location, 'i') },
+					],
+				})
+					.populate('staff')
+					.populate('services');
+				return res.json(salons);
+			}
+			if (type === 'female') {
+				const salons = await Salon.find({
+					$and: [
+						{ 'gender.female': true },
+						{ 'location.address': new RegExp(location, 'i') },
+					],
+				})
+					.populate('staff')
+					.populate('services');
+				return res.json(salons);
+			}
+			if (type === 'other') {
+				const salons = await Salon.find({
+					$and: [
+						{ 'gender.other': true },
+						{ 'location.address': new RegExp(location, 'i') },
+					],
+				})
+					.populate('staff')
+					.populate('services');
+				return res.json(salons);
+			}
 		} catch (error) {
 			return res.status(500).json({ msg: err.message });
 		}

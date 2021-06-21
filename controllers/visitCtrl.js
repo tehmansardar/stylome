@@ -2,6 +2,15 @@ const Visit = require('../models/visitModel');
 const Staff = require('../models/staffModel');
 
 const visitCtrl = {
+	staffForVisit: async (req, res) => {
+		const { service } = req.body;
+		try {
+			const staff = await Staff.find({ services: service });
+			return res.status(200).json(staff);
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
 	registerVisit: async (req, res) => {
 		try {
 			const { salon, service, customService, staff, slots, price, status } =
