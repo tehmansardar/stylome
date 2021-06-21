@@ -4,226 +4,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Chip, Avatar } from '@material-ui/core';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { dispatchGetStaffSlots } from '../../../redux/actions/visitActions';
 
 import axios from 'axios';
 
-const members = [
-	{
-		id: 1,
-		name: 'Tehman Sardar',
-		rating: 4.5,
-		slots: [
-			{
-				slotID: 1,
-				slot: '07:00',
-				book: false,
-			},
-			{
-				slotID: 2,
-				slot: '07:30',
-				book: false,
-			},
-			{
-				slotID: 3,
-				slot: '08:00',
-				book: true,
-			},
-			{
-				slotID: 4,
-				slot: '08:30',
-				book: true,
-			},
-			{
-				slotID: 5,
-				slot: '09:00',
-				book: true,
-			},
-			{
-				slotID: 6,
-				slot: '09:30',
-				book: true,
-			},
-			{
-				slotID: 7,
-				slot: '10:00',
-				book: true,
-			},
-		],
-	},
-	{
-		id: 2,
-		name: 'Zeeshan Sardar',
-		rating: 4.5,
-		slots: [
-			{
-				slotID: 1,
-				slot: '06:00',
-				book: false,
-			},
-			{
-				slotID: 2,
-				slot: '06:30',
-				book: false,
-			},
-			{
-				slotID: 3,
-				slot: '07:00',
-				book: true,
-			},
-			{
-				slotID: 4,
-				slot: '07:30',
-				book: true,
-			},
-			{
-				slotID: 5,
-				slot: '08:00',
-				book: true,
-			},
-			{
-				slotID: 6,
-				slot: '08:30',
-				book: true,
-			},
-			{
-				slotID: 7,
-				slot: '09:00',
-				book: true,
-			},
-		],
-	},
-	{
-		id: 3,
-		name: 'Salman Sardar',
-		rating: 4.5,
-		slots: [
-			{
-				slotID: 1,
-				slot: '05:00',
-				book: false,
-			},
-			{
-				slotID: 2,
-				slot: '05:30',
-				book: false,
-			},
-			{
-				slotID: 3,
-				slot: '06:00',
-				book: true,
-			},
-			{
-				slotID: 4,
-				slot: '06:30',
-				book: true,
-			},
-			{
-				slotID: 5,
-				slot: '07:00',
-				book: true,
-			},
-			{
-				slotID: 6,
-				slot: '07:30',
-				book: true,
-			},
-			{
-				slotID: 7,
-				slot: '08:00',
-				book: true,
-			},
-		],
-	},
-	{
-		id: 4,
-		name: 'Adnan Sardar',
-		rating: 4.5,
-		slots: [
-			{
-				slotID: 1,
-				slot: '06:00',
-				book: false,
-			},
-			{
-				slotID: 2,
-				slot: '06:30',
-				book: false,
-			},
-			{
-				slotID: 3,
-				slot: '07:00',
-				book: false,
-			},
-			{
-				slotID: 4,
-				slot: '07:30',
-				book: true,
-			},
-			{
-				slotID: 5,
-				slot: '08:00',
-				book: true,
-			},
-			{
-				slotID: 6,
-				slot: '08:30',
-				book: false,
-			},
-			{
-				slotID: 7,
-				slot: '09:00',
-				book: false,
-			},
-		],
-	},
-	{
-		id: 5,
-		name: 'Jhon Doe',
-		rating: 4.5,
-		slots: [
-			{
-				slotID: 1,
-				slot: '06:00',
-				book: false,
-			},
-			{
-				slotID: 2,
-				slot: '06:30',
-				book: false,
-			},
-			{
-				slotID: 3,
-				slot: '07:00',
-				book: true,
-			},
-			{
-				slotID: 4,
-				slot: '07:30',
-				book: true,
-			},
-			{
-				slotID: 5,
-				slot: '08:00',
-				book: true,
-			},
-			{
-				slotID: 6,
-				slot: '08:30',
-				book: false,
-			},
-			{
-				slotID: 7,
-				slot: '09:00',
-				book: false,
-			},
-		],
-	},
-];
-
 const ScheduleSlot = () => {
+	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(true);
 	const [selectMember, setSelectMember] = useState(1);
 	const [staff, setStaff] = useState([]);
+	const [selectedSlots, setSelectedSlots] = useState([]);
 
 	const token = useSelector((state) => state.token);
 	const visit = useSelector((state) => state.visit);
@@ -246,22 +36,31 @@ const ScheduleSlot = () => {
 		staffAndSlots();
 	}, [token, visit]);
 
-	console.log(staff);
+	const getStaffAndSlots = () => {
+		const staffAndSlots = { selectMember, selectedSlots };
+		return dispatch(dispatchGetStaffSlots(staffAndSlots));
+	};
 
 	const handleSelectMember = (e) => {
-		const chnageMemeber = e.currentTarget.getAttribute('data-id');
-		setSelectMember(parseInt(chnageMemeber));
+		const changeMemeber = e.currentTarget.getAttribute('data-id');
+		setSelectMember(changeMemeber);
+		setSelectedSlots([]);
+		// getStaffAndSlots();
 	};
 
-	const chooseSlot = (e) => {
-		e.preventDefault();
-		const personId = parseInt(e.currentTarget.getAttribute('data-id'));
+	useEffect(() => {
+		getStaffAndSlots();
+	}, [dispatch, selectMember, selectedSlots]);
 
-		if (selectMember === personId) {
-			console.log(e.target.value, personId);
-			e.currentTarget.classList.add('slot-select');
-		}
-	};
+	// const chooseSlot = (e) => {
+	// 	e.preventDefault();
+	// 	const personId = e.currentTarget.getAttribute('data-id');
+
+	// 	if (selectMember === personId) {
+	// 		console.log(e.target.value, personId);
+	// 		e.currentTarget.classList.add('slot-select');
+	// 	}
+	// };
 
 	return (
 		<div className='px-3'>
@@ -309,20 +108,37 @@ const ScheduleSlot = () => {
 					<div className='mt-5'>
 						<h2>Choose slots for service</h2>
 						<div className='flex flex-row flex-wrap mt-2'>
-							{members
-								.filter((member) => member.id === selectMember)
+							{staff
+								.filter((member) => member._id === selectMember)
 								.map((member) =>
 									member.slots.map((slot) => (
 										<button
-											key={slot.slotID}
+											key={slot._id}
 											className={`${
 												slot.book
 													? 'slot-default'
 													: 'slot-default slot-reserved'
 											}  w-12 h-6 mr-1 mb-2 text-center`}
 											value={slot.slot}
-											data-id={member.id}
-											onClick={chooseSlot}
+											data-id={member._id}
+											// onClick={chooseSlot}
+											onClick={(e) => {
+												e.preventDefault();
+												const personId =
+													e.currentTarget.getAttribute('data-id');
+
+												if (selectMember === personId) {
+													if (slot.book === true) {
+														setSelectedSlots((currentArray) => [
+															...currentArray,
+															slot,
+														]);
+														e.currentTarget.classList.add('slot-select');
+													}
+
+													// getStaffAndSlots();
+												}
+											}}
 										>
 											{slot.slot}
 										</button>

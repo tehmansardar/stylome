@@ -32,6 +32,7 @@ const visitCtrl = {
 				{ arrayFilters: [{ 'elem._id': { $in: slots.map((s) => s._id) } }] }
 			);
 			await newVisit.save();
+			res.status(200).json({ msg: 'Schedule Successfully' });
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
 		}

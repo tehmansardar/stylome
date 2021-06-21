@@ -41,7 +41,7 @@ const CustomServices = ({ service }) => {
 					}}
 					className={`${
 						primary ? 'customServiceSelect' : ''
-					} custom-servicee  w-32 py-2 mx-2 rounded-3xl`}
+					} custom-servicee  w-32 py-2 cursor-pointer mx-2 rounded-3xl`}
 				>
 					<div className='flex flex-col justify-center items-center'>
 						<p>{service.customServices.primary.name}</p>
@@ -65,7 +65,7 @@ const CustomServices = ({ service }) => {
 					}}
 					className={`${
 						secondary ? 'customServiceSelect' : ''
-					} custom-servicee w-32 py-2 mx-2 rounded-3xl`}
+					} custom-servicee cursor-pointer w-32 py-2 mx-2 rounded-3xl`}
 				>
 					<div className='flex flex-col justify-center items-center'>
 						<p>{service.customServices.secondary.name}</p>
@@ -89,7 +89,7 @@ const CustomServices = ({ service }) => {
 					}}
 					className={`${
 						tertiary ? 'customServiceSelect' : ''
-					} custom-servicee w-32 py-2 mx-2 rounded-3xl`}
+					} custom-servicee cursor-pointer w-32 py-2 mx-2 rounded-3xl`}
 				>
 					<div className='flex flex-col justify-center items-center'>
 						<p>{service.customServices.tertiary.name}</p>

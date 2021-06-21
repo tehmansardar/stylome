@@ -30,6 +30,12 @@ const visitReducer = (state = visit, action) => {
 				customService: action.payload.customService,
 				price: action.payload.price,
 			};
+		case ACTIONS.GET_STAFF_SLOTS:
+			return {
+				...state,
+				staff: action.payload.staff,
+				slots: action.payload.slots,
+			};
 		default:
 			return state;
 	}

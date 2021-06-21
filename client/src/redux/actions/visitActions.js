@@ -26,3 +26,13 @@ export const dispatchCustomService = (customService) => {
 		},
 	};
 };
+
+export const dispatchGetStaffSlots = (staffAndSlots) => {
+	return {
+		type: ACTIONS.GET_STAFF_SLOTS,
+		payload: {
+			staff: staffAndSlots.selectMember,
+			slots: staffAndSlots.selectedSlots,
+		},
+	};
+};

@@ -13,15 +13,17 @@ import './style.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchSalonId } from '../../../redux/actions/visitActions';
+import axios from 'axios';
 
 const VisitModal = ({ salon }) => {
+	const [state, setState] = useState({ err: '', success: '' });
 	const [nextStep, setNextStep] = useState(true);
-
 	const nextStepModal = () => {
 		setNextStep(false);
 	};
 
 	const dispatch = useDispatch();
+	const token = useSelector((state) => state.token);
 
 	useEffect(() => {
 		const salonid = () => {
@@ -31,6 +33,7 @@ const VisitModal = ({ salon }) => {
 	}, [dispatch]);
 
 	const visit = useSelector((state) => state.visit);
+	const { service, customService, staff, slots, price, status } = visit;
 
 	useEffect(() => {
 		if (!visit.service || !visit.customService) {
@@ -38,6 +41,34 @@ const VisitModal = ({ salon }) => {
 		}
 	}, [nextStep]);
 
+	const visitConfirm = async (e) => {
+		e.preventDefault();
+		const { salon } = visit;
+		try {
+			if (!salon || !service || !customService || !staff || !slots || !price)
+				return setState({ ...state, err: 'Schedule Carefully', success: '' });
+			const res = await axios.post(
+				'/api/visit/registerVisit',
+				{
+					salon: salon,
+					service: service,
+					customService: customService,
+					staff: staff,
+					slots: slots,
+					price: price,
+					status: status,
+				},
+				{
+					headers: { Authorization: token },
+				}
+			);
+			setState({ ...state, err: '', success: res.data });
+		} catch (error) {
+			return setState({ ...state, err: error.response.data.msg, success: '' });
+		}
+	};
+
+	console.log(state.err, state.success);
 	return (
 		<div className='VisitModal sm:w-full md:w-10/12 lg:w-2/5  w-10/12 rounded-3xl h-5/6	'>
 			<h1 className='text-center font-semibold text-white my-5'>
@@ -45,7 +76,7 @@ const VisitModal = ({ salon }) => {
 			</h1>
 			<div className='relative bg-white rounded-3xl pb-10 h-full'>
 				<div className='bg-white w-full'>
-					{/* <div className='time-price flex flex-row justify-between px-10 py-2 text-gray-700'>
+					<div className='time-price flex flex-row justify-between px-10 py-2 text-gray-700'>
 						<span>
 							<AccessTimeIcon />
 							1hr 30min
@@ -54,7 +85,7 @@ const VisitModal = ({ salon }) => {
 							<LocalOfferIcon />
 							$20
 						</span>
-					</div> */}
+					</div>
 					{nextStep ? <ServicesCarousel salon={salon} /> : <ScheduleSlot />}
 				</div>
 
@@ -106,6 +137,7 @@ const VisitModal = ({ salon }) => {
 									className='h-12 '
 									color='primary'
 									style={{ outline: 'none' }}
+									onClick={visitConfirm}
 								>
 									<span className='text-sm'>Confirm</span>
 								</Button>
