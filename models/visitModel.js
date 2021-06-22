@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 
 const visitSchema = new mongoose.Schema(
 	{
-		visitor: {
+		users: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'users',
+			ref: 'Users',
 		},
-		salon: {
+		salons: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'salons',
+			ref: 'Salon',
 		},
-		service: {
+		services: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'services',
 		},
@@ -55,6 +55,10 @@ const visitSchema = new mongoose.Schema(
 				type: String,
 				default: '',
 			},
+		},
+		date: {
+			type: Date,
+			default: '',
 		},
 	},
 	{ timestamps: true }

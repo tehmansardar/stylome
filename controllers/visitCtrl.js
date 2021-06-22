@@ -17,14 +17,15 @@ const visitCtrl = {
 				req.body;
 
 			const newVisit = new Visit({
-				visitor: req.user.id,
-				salon,
-				service,
+				users: req.user.id,
+				salons: salon,
+				services: service,
 				customService,
 				staff,
 				slots,
 				price,
 				status,
+				date: new Date(),
 			});
 			await Staff.findByIdAndUpdate(
 				staff,
@@ -33,6 +34,19 @@ const visitCtrl = {
 			);
 			await newVisit.save();
 			res.status(200).json({ msg: 'Schedule Successfully' });
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
+	salonVisit: async (req, res) => {
+		try {
+			const visits = await Visit.find({
+				$and: [{ salons: req.salon.id }, { status: 0 }],
+			})
+				.populate('users')
+				.populate('staff')
+				.populate('services');
+			res.json(visits);
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
 		}
