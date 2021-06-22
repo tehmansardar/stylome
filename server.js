@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const { file } = require('googleapis/build/src/apis/file');
 
+// Models
+const Staff = require('./models/staffModel');
+
 // imports
 const connectDB = require('./config/db.js');
 
@@ -20,6 +23,39 @@ app.use(
 );
 // DB config
 connectDB();
+
+// ........
+const resetSlots = async () => {
+	function parseHour(s) {
+		let c = s.split(':');
+		return parseInt(c[0]);
+		// return parseInt(c[0]) * 60 + parseInt(c[1]);
+	}
+	function parseMin(s) {
+		let c = s.split(':');
+		return parseInt(c[1]);
+		// return parseInt(c[0]) * 60 + parseInt(c[1]);
+	}
+
+	const d = new Date();
+	const hh = d.getHours();
+
+	const staffs = await Staff.find();
+	staffs.forEach(async (staff) => {
+		const staff_id = staff._id;
+		const lastSlot = staff.slots[staff.slots.length - 1];
+		dbHour = parseHour(lastSlot.slot);
+		if (hh > dbHour) {
+			await Staff.findOneAndUpdate(
+				{ _id: staff_id },
+				{ 'slots.$[].book': true }
+			);
+		}
+	});
+};
+
+// app.use(resetSlots);
+resetSlots();
 
 // Routes
 app.use('/api/user', require('./routes/userRoutes'));
