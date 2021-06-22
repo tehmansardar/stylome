@@ -8,6 +8,7 @@ const visit = {
 	slots: [],
 	price: '',
 	status: 0,
+	customObj: {},
 };
 
 const visitReducer = (state = visit, action) => {
@@ -29,12 +30,25 @@ const visitReducer = (state = visit, action) => {
 				...state,
 				customService: action.payload.customService,
 				price: action.payload.price,
+				customObj: action.payload.customObj,
 			};
 		case ACTIONS.GET_STAFF_SLOTS:
 			return {
 				...state,
 				staff: action.payload.staff,
 				slots: action.payload.slots,
+			};
+		case ACTIONS.CLEAR_VISIT:
+			return {
+				...state,
+				salon: '',
+				service: '',
+				customService: '',
+				staff: '',
+				slots: [],
+				price: '',
+				status: 0,
+				customObj: {},
 			};
 		default:
 			return state;

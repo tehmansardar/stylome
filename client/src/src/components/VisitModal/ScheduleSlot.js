@@ -126,7 +126,7 @@ const ScheduleSlot = () => {
 												e.preventDefault();
 												const personId =
 													e.currentTarget.getAttribute('data-id');
-
+												e.currentTarget.setAttribute('disabled', true);
 												if (selectMember === personId) {
 													if (slot.book === true) {
 														setSelectedSlots((currentArray) => [

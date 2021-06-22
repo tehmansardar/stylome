@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,10 +10,34 @@ import Box from '@material-ui/core/Box';
 
 import CustomServices from './CustomServices';
 
-import HairImage from '../../../assets/images/hair-cut.svg';
-
 import { useDispatch } from 'react-redux';
-import { dispatchServiceId } from '../../../redux/actions/visitActions';
+import {
+	dispatchServiceId,
+	dispatchCustomService,
+} from '../../../redux/actions/visitActions';
+
+const AntTabs = withStyles({
+	root: {
+		background: '#FFF',
+	},
+	indicator: {
+		borderBottom: '3px solid #FFCD06',
+		backgroundColor: '#FFCD06',
+	},
+	selected: {
+		background: '#fff',
+	},
+})(Tabs);
+
+const AntTab = withStyles({
+	root: {
+		color: '#000',
+		fontWeight: 'bold',
+	},
+	indicator: {
+		backgroundColor: '#000',
+	},
+})(Tab);
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -50,9 +74,9 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		// flexGrow: 1,
-		// width: '100%',
-		// backgroundColor: theme.palette.background.paper,
+		flexGrow: 1,
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
 	},
 }));
 
@@ -69,35 +93,41 @@ const ServicesCarousel = (salon) => {
 		return dispatch(dispatchServiceId(id));
 	};
 
+	useEffect(() => {
+		serviceId(salon.salon.services[0]._id);
+		// getCustomService(data);
+	}, [dispatch]);
+
+	const getCustomService = (data) => {
+		return dispatch(dispatchCustomService(data));
+	};
+
 	return (
-		<div>
+		<div className={classes.root}>
 			<div className='services-carousel flex flex-col items-center py-5 '>
 				<h2 className='uppercase font-semibold	text-center'>Choose Serivces</h2>
 				<div className='w-9/12 h-16 mt-2  align-middle'>
 					<AppBar position='static' color='default'>
-						<Tabs
+						<AntTabs
 							value={value}
 							onChange={handleChange}
-							indicatorColor='primary'
-							textColor='primary'
+							indicatorColor='secondary'
+							textColor='secondary'
 							variant='scrollable'
 							scrollButtons='auto'
-							aria-label='scrollable auto tabs example'
+							aria-label='scrollable auto tabs'
 						>
 							{salon.salon.services.map((service, index) => (
-								<Tab
+								<AntTab
 									label={service.service}
 									{...a11yProps(index)}
-									onClick={() => serviceId(service._id)}
+									onClick={() => {
+										serviceId(service._id);
+										getCustomService(service.customServices.primary);
+									}}
 								/>
 							))}
-							{/* <Tab label='Item Two' {...a11yProps(1)} />
-							<Tab label='Item Three' {...a11yProps(2)} />
-							<Tab label='Item Four' {...a11yProps(3)} />
-							<Tab label='Item Five' {...a11yProps(4)} />
-							<Tab label='Item Six' {...a11yProps(5)} />
-							<Tab label='Item Seven' {...a11yProps(6)} /> */}
-						</Tabs>
+						</AntTabs>
 					</AppBar>
 				</div>
 			</div>

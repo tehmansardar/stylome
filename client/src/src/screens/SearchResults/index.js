@@ -17,12 +17,6 @@ const SearchResults = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		setTimeout(function () {
-			setLoading(false);
-		}, 1000);
-	}, []);
-
-	useEffect(() => {
 		const salonList = async () => {
 			const res = await axios.post('api/search/search', {
 				type: type,
@@ -30,6 +24,7 @@ const SearchResults = () => {
 			});
 			console.log(res.data);
 			setSalons(res.data);
+			setLoading(false);
 		};
 		salonList();
 	}, []);

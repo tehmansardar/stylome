@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 
 import './style.css';
 
-import StarIcon from '@material-ui/icons/Star';
+import { Button } from '@material-ui/core';
 
+import StarIcon from '@material-ui/icons/Star';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -12,6 +13,10 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ShareIcon from '@material-ui/icons/Share';
 
 import Services from '../../components/Services';
+import ScheduleModal from '../../components/VisitModal/ScheduleModal';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatchClearVisit } from '../../../redux/actions/visitActions';
 
 import axios from 'axios';
 
@@ -21,11 +26,22 @@ const InfoScreen = () => {
 	const SalonId = useParams('salonId');
 	const [salon, setSalon] = useState('');
 
-	// useEffect(() => {
-	// 	setTimeout(function () {
-	// 		setLoading(false);
-	// 	}, 2000);
-	// }, []);
+	// Modal
+	const signin = useSelector((state) => state.auth.isLogged);
+
+	const dispatch = useDispatch();
+
+	const [open, setOpen] = useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		dispatch(dispatchClearVisit());
+		setOpen(false);
+	};
+	// End Modal
 
 	useEffect(() => {
 		const salonInfo = async () => {
@@ -71,6 +87,15 @@ const InfoScreen = () => {
 									</span>
 								</div>
 								<div className='like-location-right'>
+									<Button
+										className='m-visit-btn'
+										variant='contained'
+										color='primary'
+										size='small'
+										onClick={handleOpen}
+									>
+										Schedule Visit
+									</Button>
 									{/* <span className='share'>
 							<ShareIcon /> Share
 						</span>
@@ -107,6 +132,7 @@ const InfoScreen = () => {
 
 						{/* map */}
 						{/* <div className='map'></div> */}
+						<ScheduleModal salon={salon} open={open} onClose={handleClose} />
 					</div>
 				</>
 			)}

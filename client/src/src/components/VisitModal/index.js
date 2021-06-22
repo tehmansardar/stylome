@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dispatchSalonId } from '../../../redux/actions/visitActions';
 import axios from 'axios';
 
-const VisitModal = ({ salon }) => {
+const VisitModal = ({ salon, onClose }) => {
 	const [state, setState] = useState({ err: '', success: '' });
 	const [nextStep, setNextStep] = useState(true);
 	const nextStepModal = () => {
@@ -33,7 +33,8 @@ const VisitModal = ({ salon }) => {
 	}, [dispatch]);
 
 	const visit = useSelector((state) => state.visit);
-	const { service, customService, staff, slots, price, status } = visit;
+	const { service, customService, staff, slots, price, status, customObj } =
+		visit;
 
 	useEffect(() => {
 		if (!visit.service || !visit.customService) {
@@ -47,6 +48,14 @@ const VisitModal = ({ salon }) => {
 		try {
 			if (!salon || !service || !customService || !staff || !slots || !price)
 				return setState({ ...state, err: 'Schedule Carefully', success: '' });
+
+			if (slots.length > customObj.slots || slots.length < customObj.slots)
+				return setState({
+					...state,
+					err: 'Choose required number of slots',
+					success: '',
+				});
+
 			const res = await axios.post(
 				'/api/visit/registerVisit',
 				{
@@ -63,12 +72,12 @@ const VisitModal = ({ salon }) => {
 				}
 			);
 			setState({ ...state, err: '', success: res.data });
+			onClose(false);
 		} catch (error) {
 			return setState({ ...state, err: error.response.data.msg, success: '' });
 		}
 	};
 
-	console.log(state.err, state.success);
 	return (
 		<div className='VisitModal sm:w-full md:w-10/12 lg:w-2/5  w-10/12 rounded-3xl h-5/6	'>
 			<h1 className='text-center font-semibold text-white my-5'>
@@ -79,11 +88,11 @@ const VisitModal = ({ salon }) => {
 					<div className='time-price flex flex-row justify-between px-10 py-2 text-gray-700'>
 						<span>
 							<AccessTimeIcon />
-							1hr 30min
+							{customObj.slots ? customObj.slots * 30 + 'min' : 0}
 						</span>
 						<span>
 							<LocalOfferIcon />
-							$20
+							{price ? price + 'Rs' : '0'}
 						</span>
 					</div>
 					{nextStep ? <ServicesCarousel salon={salon} /> : <ScheduleSlot />}
@@ -92,17 +101,18 @@ const VisitModal = ({ salon }) => {
 				<div className='navigate-modal flex justify-end	absolute bottom-3 right-0 pr-12'>
 					{nextStep ? (
 						<>
-							{/* <div className='mr-2'>
+							<div className='mr-2'>
 								<Button
 									variant='contained'
 									color='primary'
 									className='h-12 '
 									color='secondary'
 									style={{ outline: 'none' }}
+									onClick={onClose}
 								>
 									Cancel
 								</Button>
-							</div> */}
+							</div>
 							<div>
 								<Button
 									variant='contained'
@@ -126,6 +136,7 @@ const VisitModal = ({ salon }) => {
 									className='h-12 '
 									color='secondary'
 									style={{ outline: 'none' }}
+									onClick={onClose}
 								>
 									Cancel
 								</Button>

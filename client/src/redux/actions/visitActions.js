@@ -23,6 +23,7 @@ export const dispatchCustomService = (customService) => {
 		payload: {
 			customService: customService.name,
 			price: customService.price,
+			customObj: customService,
 		},
 	};
 };
@@ -34,5 +35,11 @@ export const dispatchGetStaffSlots = (staffAndSlots) => {
 			staff: staffAndSlots.selectMember,
 			slots: staffAndSlots.selectedSlots,
 		},
+	};
+};
+
+export const dispatchClearVisit = () => {
+	return {
+		type: ACTIONS.CLEAR_VISIT,
 	};
 };

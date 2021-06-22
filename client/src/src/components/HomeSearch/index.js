@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import axios from 'axios';
 
@@ -62,8 +63,6 @@ const HomeSearch = () => {
 			showL: false,
 		});
 	};
-
-	console.log(state.resultSalon);
 
 	const clickSalonSuggestion = (e) => {
 		e.preventDefault();
@@ -211,27 +210,33 @@ const HomeSearch = () => {
 							showS ? (salon ? 'visible' : 'invisible') : 'invisible'
 						} suggestions suggestions-name bg-white mt-1 w-2/5 h-64 absolute rounded-xl overflow-scroll`}
 					>
-						<ul className='p-5'>
-							{state.resultSalon.map((result) => (
-								<li
-									key={result._id}
-									data-id={result._id}
-									className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
-									onClick={clickSalonSuggestion}
-								>
-									<img
-										className='w-16 rounded-lg mr-2'
-										src={
-											result.showcase
-												? result.showcase
-												: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
-										}
-										alt={result.name}
-									/>
-									<p>{result.name}</p>
-								</li>
-							))}
-						</ul>
+						{state.loadSalon ? (
+							<div className='flex justify-center items-center h-full'>
+								<CircularProgress color='primary' />
+							</div>
+						) : (
+							<ul className='p-5'>
+								{state.resultSalon.map((result) => (
+									<li
+										key={result._id}
+										data-id={result._id}
+										className='flex fle-row align items-center mt-1 rounded-lg cursor-pointer hover:bg-gray-50 hover:shadow p-2'
+										onClick={clickSalonSuggestion}
+									>
+										<img
+											className='w-16 rounded-lg mr-2'
+											src={
+												result.showcase
+													? result.showcase
+													: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
+											}
+											alt={result.name}
+										/>
+										<p>{result.name}</p>
+									</li>
+								))}
+							</ul>
+						)}
 					</div>
 
 					<div

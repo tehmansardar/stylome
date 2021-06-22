@@ -3,41 +3,21 @@ import './style.css';
 
 import { Link } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
-
 import { Button } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
-// Modal
+import ScheduleModal from '../VisitModal/ScheduleModal';
 
-import { Modal } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-
-import VisitModal from '../VisitModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatchClearVisit } from '../../../redux/actions/visitActions';
 
 const Salon = ({ salon }) => {
 	// Modal
-
 	const signin = useSelector((state) => state.auth.isLogged);
 
-	const useStyles = makeStyles((theme) => ({
-		modal: {
-			display: 'flex',
-			alignItems: 'items-stretch',
-			justifyContent: 'center',
-		},
-		paper: {
-			backgroundColor: theme.palette.background.paper,
-			border: '2px solid #000',
-			boxShadow: theme.shadows[5],
-			padding: theme.spacing(2, 4, 3),
-		},
-	}));
+	const dispatch = useDispatch();
 
-	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 
 	const handleOpen = () => {
@@ -45,10 +25,14 @@ const Salon = ({ salon }) => {
 	};
 
 	const handleClose = () => {
+		dispatch(dispatchClearVisit());
 		setOpen(false);
 	};
-	// End Modal
 
+	let date = new Date();
+	console.log(date);
+	// End Modal
+	console.log(salon);
 	return (
 		<div>
 			<div className='Salon'>
@@ -76,16 +60,17 @@ const Salon = ({ salon }) => {
 								</span> */}
 							</div>
 							<div className='m-visit-btn-hide lg:hidden xl:hidden '>
-								<Button
-									className='m-visit-btn'
-									variant='contained'
-									color='primary'
-									size='small'
-									onClick={handleOpen}
-									data-id={salon._id}
-								>
-									Schedule Visit
-								</Button>
+								{signin && (
+									<Button
+										className='m-visit-btn'
+										variant='contained'
+										color='primary'
+										size='small'
+										onClick={handleOpen}
+									>
+										Schedule Visit
+									</Button>
+								)}
 							</div>
 						</div>
 					</div>
@@ -98,29 +83,11 @@ const Salon = ({ salon }) => {
 						</Button>
 					)}
 
-					{/* <Button className='salon-status'>Open Now</Button> */}
+					<Button className='salon-status'>Open Now</Button>
 				</div>
 			</div>
 			<hr className='line' />
-
-			{/* Modal */}
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={open}
-				onClose={handleClose}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<Fade in={open}>
-					<VisitModal salon={salon} />
-				</Fade>
-			</Modal>
-			{/* End Modal */}
+			<ScheduleModal salon={salon} open={open} onClose={handleClose} />
 		</div>
 	);
 };

@@ -12,6 +12,13 @@
 .like-location_left {
 	display: flex;
 }
+
+.like-location-right .m-visit-btn {
+	background: #ffcd06 !important;
+	font-weight: bold;
+	text-transform: capitalize;
+	width: 120px;
+}
 .like-location .rating {
 	display: flex;
 	align-items: center;
