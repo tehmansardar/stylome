@@ -107,6 +107,13 @@ const HomeSearch = () => {
 									name='salon'
 									placeholder='Search by salon'
 									onChange={salonChange}
+									onClick={(e) => {
+										e.preventDefault();
+										setState({
+											...state,
+											showT: false,
+										});
+									}}
 									value={salon}
 								/>
 							</div>
@@ -135,6 +142,7 @@ const HomeSearch = () => {
 									name='type'
 									placeholder='Search by Type'
 									value={type}
+									readOnly
 									onClick={(e) => {
 										e.preventDefault();
 										setState({

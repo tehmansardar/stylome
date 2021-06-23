@@ -87,15 +87,18 @@ const InfoScreen = () => {
 									</span>
 								</div>
 								<div className='like-location-right'>
-									<Button
-										className='m-visit-btn'
-										variant='contained'
-										color='primary'
-										size='small'
-										onClick={handleOpen}
-									>
-										Schedule Visit
-									</Button>
+									{signin && (
+										<Button
+											className='m-visit-btn'
+											variant='contained'
+											color='primary'
+											size='small'
+											onClick={handleOpen}
+										>
+											Schedule Visit
+										</Button>
+									)}
+
 									{/* <span className='share'>
 							<ShareIcon /> Share
 						</span>

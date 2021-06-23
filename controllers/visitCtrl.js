@@ -51,5 +51,33 @@ const visitCtrl = {
 			res.status(500).json({ msg: error.message });
 		}
 	},
+	userVisits: async (req, res) => {
+		try {
+			const visits = await Visit.find({
+				users: req.user.id,
+			})
+				.populate('salons')
+				.populate('staff')
+				.populate('services');
+			res.json(visits);
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
+	clearVisit: async (req, res) => {
+		const {visitId, stars,review} = req.body;
+		try {
+			const visits = await Visit.findOneAndUpdate({
+				$and: [{ _id: visitId },{ users: req.user.id }, { status: 0 }],
+			},{
+				'rating.stars':stars,
+				'rating.review':review,
+				status:1,
+			});
+			res.json({msg:'Success'});
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
 };
 module.exports = visitCtrl;

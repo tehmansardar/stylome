@@ -33,4 +33,22 @@ router.post('/registerVisit', auth, visitCtrl.registerVisit);
  */
 router.get('/salonVisits', auth, salonAuth, visitCtrl.salonVisit);
 
+/**
+ * @route   GET api/visit/salonVisits
+ * @desc    Reigtser visit
+ * @access  Private
+ * @params	Authorization
+ * @body    salon,service,customService,staff,slots:[{slot,book,_id}], price, status
+ */
+router.get('/userVisits', auth, visitCtrl.userVisits);
+
+/**
+ * @route   GET api/visit/salonVisits
+ * @desc    Reigtser visit
+ * @access  Private
+ * @params	Authorization to get visitor ID
+ * @body    visitId
+ */
+ router.patch('/clearVisit', auth, visitCtrl.clearVisit);
+
 module.exports = router;

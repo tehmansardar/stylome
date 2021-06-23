@@ -79,7 +79,7 @@ const VisitModal = ({ salon, onClose }) => {
 	};
 
 	return (
-		<div className='VisitModal sm:w-full md:w-10/12 lg:w-2/5  w-10/12 rounded-3xl h-5/6	'>
+		<div className='VisitModal sm:w-full rounded-3xl '>
 			<h1 className='text-center font-semibold text-white my-5'>
 				SCHEDULE YOUR VISIT
 			</h1>

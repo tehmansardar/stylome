@@ -15,10 +15,17 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 	},
 	paper: {
-		backgroundColor: theme.palette.background.paper,
-		border: '2px solid #000',
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
+		// backgroundColor: theme.palette.background.paper,
+		// border: '2px solid #000',
+		// boxShadow: theme.shadows[5],
+		// padding: theme.spacing(2, 4, 3),
+		'@media (min-width: 768px)': {
+			width: '37%',
+			height:'500px',
+		},
+		'@media (max-width: 660px)': {
+			width: '90%',
+		},
 	},
 }));
 
@@ -41,7 +48,9 @@ const ScheduleModal = ({ salon, open, onClose }) => {
 				}}
 			>
 				<Fade in={open}>
-					<VisitModal salon={salon} onClose={onClose} />
+					<div className={classes.paper}>
+						<VisitModal salon={salon} onClose={onClose} />
+					</div>
 				</Fade>
 			</Modal>
 			{/* End Modal */}

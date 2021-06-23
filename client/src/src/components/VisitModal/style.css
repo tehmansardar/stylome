@@ -67,3 +67,15 @@ slick-prev {
 	color: #ffcd06;
 	outline: none !important;
 }
+
+@media screen and (min-width: 1024px) {
+	.VisitModal{
+		height: 100%;
+	}	
+}
+
+@media screen and (max-width: 550px) {
+	.VisitModal{
+		height: 70%;
+	}	
+}

@@ -131,6 +131,7 @@ const MobileSearch = () => {
 					type='text'
 					className='type'
 					name='type'
+					readOnly
 					placeholder='Searh by Type'
 					value={type}
 					onClick={() => setState({ ...state, step: 2, show: true })}

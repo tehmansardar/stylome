@@ -83,7 +83,7 @@ const Salon = ({ salon }) => {
 						</Button>
 					)}
 
-					<Button className='salon-status'>Open Now</Button>
+					{/* <Button className='salon-status'>Open Now</Button> */}
 				</div>
 			</div>
 			<hr className='line' />
