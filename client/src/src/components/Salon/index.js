@@ -29,10 +29,18 @@ const Salon = ({ salon }) => {
 		setOpen(false);
 	};
 
-	let date = new Date();
-	console.log(date);
-	// End Modal
+	function ParseTime(s) {
+		const d = new Date();
+		const c = s.split(':');
+		const hh = parseInt(c[0]);
+		const mm = parseInt(c[1]);
+		d.setHours(hh, mm);
+		return d;
+	}
+	const date = new Date();
+
 	console.log(salon);
+
 	return (
 		<div>
 			<div className='Salon'>
@@ -55,35 +63,61 @@ const Salon = ({ salon }) => {
 								<p>
 									<span>{salon.staff.length} Staff members</span>
 								</p>
-								{/* <span className='rating'>
+								<span className='rating'>
 									<StarIcon /> (18)
-								</span> */}
+								</span>
 							</div>
 							<div className='m-visit-btn-hide lg:hidden xl:hidden '>
-								{signin && (
-									<Button
-										className='m-visit-btn'
-										variant='contained'
-										color='primary'
-										size='small'
-										onClick={handleOpen}
-									>
-										Schedule Visit
-									</Button>
-								)}
+								{salon &&
+									(date > ParseTime(salon.timing.opening) &&
+									date < ParseTime(salon.timing.closing) ? (
+										signin ? (
+											<Button
+												className='m-visit-btn'
+												variant='contained'
+												color='primary'
+												size='small'
+												onClick={handleOpen}
+											>
+												Schedule Visit
+											</Button>
+										) : (
+											''
+										)
+									) : (
+										<Button variant='outlined' color='secondary' size='small'>
+											Closed
+										</Button>
+									))}
 							</div>
 						</div>
 					</div>
 				</div>
 				<div className='salon-right'>
 					{/* <FavoriteBorderIcon /> */}
-					{signin && (
-						<Button className='schedule-visit' onClick={handleOpen}>
-							Schedule Visit
-						</Button>
-					)}
 
-					{/* <Button className='salon-status'>Open Now</Button> */}
+					{salon &&
+						(date > ParseTime(salon.timing.opening) &&
+						date < ParseTime(salon.timing.closing) ? (
+							signin ? (
+								<>
+									<Button className='schedule-visit' onClick={handleOpen}>
+										Schedule Visit
+									</Button>
+									<Button className='salon-status'>Open Now</Button>
+								</>
+							) : (
+								''
+							)
+						) : (
+							<Button
+								className='schedule-closed'
+								color='secondary'
+								variant='outlined'
+							>
+								Closed
+							</Button>
+						))}
 				</div>
 			</div>
 			<hr className='line' />

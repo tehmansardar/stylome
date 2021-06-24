@@ -43,10 +43,11 @@ const SearchResults = () => {
 						<div className='searchItems'>
 							{/* Results */}
 							<div className='left-column'>
-								<div className='search_info'>
-									<p>300+</p>
-									<h1>
-										salon {location && 'in'} {location}
+								<div className='search_info mb-10'>
+									<h1 className='font-medium text-lg'>
+										{salons.length} salon{salons.length > 1 && 's'}{' '}
+										{location && 'in'}{' '}
+										<span className='capitalize'>{location}</span>
 									</h1>
 								</div>
 								<SalonsList salons={salons} />

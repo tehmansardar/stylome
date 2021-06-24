@@ -15,9 +15,8 @@ import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
 	MuiPickersUtilsProvider,
 	KeyboardTimePicker,
-	KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { getHours } from 'date-fns';
+// import { getHours } from 'date-fns';
 
 import Success from '../../../components/utils/Notification.js/Success';
 import Errors from '../../../components/utils/Notification.js/Errors';
@@ -64,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 function ParseTime(s) {
 	const d = new Date();

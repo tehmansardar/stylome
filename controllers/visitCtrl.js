@@ -45,7 +45,8 @@ const visitCtrl = {
 			})
 				.populate('users')
 				.populate('staff')
-				.populate('services');
+				.populate('services')
+				.sort({ createdAt: -1 });
 			res.json(visits);
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
@@ -58,23 +59,43 @@ const visitCtrl = {
 			})
 				.populate('salons')
 				.populate('staff')
-				.populate('services');
+				.populate('services')
+				.sort({ createdAt: -1 });
 			res.json(visits);
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
 		}
 	},
 	clearVisit: async (req, res) => {
-		const {visitId, stars,review} = req.body;
+		const { visitId, stars, review } = req.body;
 		try {
-			const visits = await Visit.findOneAndUpdate({
-				$and: [{ _id: visitId },{ users: req.user.id }, { status: 0 }],
-			},{
-				'rating.stars':stars,
-				'rating.review':review,
-				status:1,
-			});
-			res.json({msg:'Success'});
+			const visits = await Visit.findOneAndUpdate(
+				{
+					$and: [{ _id: visitId }, { users: req.user.id }, { status: 0 }],
+				},
+				{
+					'rating.stars': stars,
+					'rating.review': review,
+					status: 1,
+				}
+			);
+			res.json({ msg: 'Success' });
+		} catch (error) {
+			res.status(500).json({ msg: error.message });
+		}
+	},
+
+	getRating: async (req, res) => {
+		const { salonId } = req.body;
+		try {
+			const visits = await Visit.find({
+				$and: [{ salons: salonId }, { status: 1 }],
+			})
+				.populate('users')
+				.populate('staff')
+				.populate('services')
+				.sort({ createdAt: -1 });
+			res.json(visits);
 		} catch (error) {
 			res.status(500).json({ msg: error.message });
 		}

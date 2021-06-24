@@ -5,27 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
+// import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 
-import Typography from '../Title';
+// import Typography from '../Title';
 import Deposits from '../Deposits';
 import Orders from '../Orders';
 
 import BankDetails from '../../../components/DashboardComponents/BankDetails';
-
-function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				stylome
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
 
 const useStyles = makeStyles((theme) => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -55,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 const Dashboard = () => {
 	const classes = useStyles();
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -84,9 +71,6 @@ const Dashboard = () => {
 					</Grid>
 				</Grid>
 			</Container>
-			{/* <Box pt={4}>
-				<Copyright />
-			</Box> */}
 		</>
 	);
 };

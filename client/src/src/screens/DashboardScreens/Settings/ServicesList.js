@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+// import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,22 +10,22 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import Typography from '@material-ui/core/Typography';
+// import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+// import IconButton from '@material-ui/core/IconButton';
+// import Tooltip from '@material-ui/core/Tooltip';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Switch from '@material-ui/core/Switch';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import FilterListIcon from '@material-ui/icons/FilterList';
 
 import { useSelector } from 'react-redux';
 
-function createData(service, primary, secondary, tertiary) {
-	return { service, primary, secondary, tertiary };
-}
+// function createData(service, primary, secondary, tertiary) {
+// 	return { service, primary, secondary, tertiary };
+// }
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -137,25 +137,25 @@ EnhancedTableHead.propTypes = {
 	rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
-	root: {
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(1),
-	},
-	highlight:
-		theme.palette.type === 'light'
-			? {
-					color: theme.palette.secondary.main,
-					backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-			  }
-			: {
-					color: theme.palette.text.primary,
-					backgroundColor: theme.palette.secondary.dark,
-			  },
-	title: {
-		flex: '1 1 100%',
-	},
-}));
+// const useToolbarStyles = makeStyles((theme) => ({
+// 	root: {
+// 		paddingLeft: theme.spacing(2),
+// 		paddingRight: theme.spacing(1),
+// 	},
+// 	highlight:
+// 		theme.palette.type === 'light'
+// 			? {
+// 					color: theme.palette.secondary.main,
+// 					backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+// 			  }
+// 			: {
+// 					color: theme.palette.text.primary,
+// 					backgroundColor: theme.palette.secondary.dark,
+// 			  },
+// 	title: {
+// 		flex: '1 1 100%',
+// 	},
+// }));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -184,8 +184,6 @@ const useStyles = makeStyles((theme) => ({
 const ServicesList = () => {
 	const services = useSelector((state) => state.salons.services);
 
-	console.log(services);
-
 	// const rows = [createData('Cupcake', '305 dfdf', 'dfdfd 3.7', '67', '4.3')];
 
 	const rows = services;
@@ -195,7 +193,7 @@ const ServicesList = () => {
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [dense, setDense] = React.useState(false);
+	const dense = false;
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 	const handleRequestSort = (event, property) => {

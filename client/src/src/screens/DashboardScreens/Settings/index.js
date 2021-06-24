@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+// import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import BasicInfo from './BasicInfo';
@@ -22,9 +22,6 @@ const AntTabs = withStyles({
 const AntTab = withStyles({
 	root: {
 		fontWeight: 'bold',
-	},
-	indicator: {
-		backgroundColor: '#FFCD06',
 	},
 })(Tab);
 

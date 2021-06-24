@@ -15,6 +15,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import Services from '../../components/Services';
 import ScheduleModal from '../../components/VisitModal/ScheduleModal';
 
+import Tabs from './Tabs';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchClearVisit } from '../../../redux/actions/visitActions';
 
@@ -58,8 +60,22 @@ const InfoScreen = () => {
 		salonInfo();
 	}, []);
 
-	console.log(salon);
+	function ParseTime(s) {
+		const d = new Date();
+		const c = s.split(':');
+		const hh = parseInt(c[0]);
+		const mm = parseInt(c[1]);
+		d.setHours(hh, mm);
+		return d;
+	}
 
+	const date = new Date();
+	// if (
+	// 	date > ParseTime(salon.timing.opening) ||
+	// 	date < ParseTime(salon.timing.closing)
+	// ) {
+	// 	console.log(ParseTime(salon.timing.opening));
+	// }
 	return (
 		<>
 			{loading ? (
@@ -87,7 +103,29 @@ const InfoScreen = () => {
 									</span>
 								</div>
 								<div className='like-location-right'>
-									{signin && (
+									{loading === false &&
+										(date > ParseTime(salon.timing.opening) &&
+										date < ParseTime(salon.timing.closing) ? (
+											signin ? (
+												<Button
+													className='m-visit-btn'
+													variant='contained'
+													color='primary'
+													size='small'
+													onClick={handleOpen}
+												>
+													Schedule Visit
+												</Button>
+											) : (
+												''
+											)
+										) : (
+											<Button variant='outlined' color='secondary' size='small'>
+												Closed
+											</Button>
+										))}
+
+									{/* {signin && (
 										<Button
 											className='m-visit-btn'
 											variant='contained'
@@ -97,7 +135,7 @@ const InfoScreen = () => {
 										>
 											Schedule Visit
 										</Button>
-									)}
+									)} */}
 
 									{/* <span className='share'>
 							<ShareIcon /> Share
@@ -119,20 +157,20 @@ const InfoScreen = () => {
 							/>
 						</div>
 						{/* facilities */}
-						<div className='facilities'>
+						{/* <div className='facilities'>
 							<h3>Provide Services Like</h3>
 							<p>{salon.services.map((service) => `${service.service} · `)}</p>
-						</div>
-						<hr className='hr-line' />
+						</div> */}
+						{/* <hr className='hr-line' /> */}
 						{/* Services */}
 						{/* <Services /> */}
 						{/* <hr className='hr-line' /> */}
 						{/* Description */}
-						<div className='description'>
+						{/* <div className='description'>
 							<p className='desc'>{salon.description}</p>
 						</div>
-						<hr className='hr-line' />
-
+						<hr className='hr-line' /> */}
+						<Tabs salon={salon} salonId={SalonId.salonId} />
 						{/* map */}
 						{/* <div className='map'></div> */}
 						<ScheduleModal salon={salon} open={open} onClose={handleClose} />

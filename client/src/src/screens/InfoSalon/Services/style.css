@@ -1,0 +1,10 @@
+@media screen and (max-width: 550px) {
+	.service .custom {
+		width: 90%;
+		margin-bottom: 20px;
+	}
+	.service .custom .MuiSvgIcon-root {
+		width: 70px;
+		height: 70px;
+	}
+}

@@ -43,12 +43,21 @@ router.get('/salonVisits', auth, salonAuth, visitCtrl.salonVisit);
 router.get('/userVisits', auth, visitCtrl.userVisits);
 
 /**
+ * @route   GET api/visit/getRating
+ * @desc    Get Rating
+ * @access  Private
+ * @params	Authorization to get visitor ID
+ * @body    SalonId
+ */
+router.post('/getRating', visitCtrl.getRating);
+
+/**
  * @route   GET api/visit/salonVisits
  * @desc    Reigtser visit
  * @access  Private
  * @params	Authorization to get visitor ID
  * @body    visitId
  */
- router.patch('/clearVisit', auth, visitCtrl.clearVisit);
+router.patch('/clearVisit', auth, visitCtrl.clearVisit);
 
 module.exports = router;

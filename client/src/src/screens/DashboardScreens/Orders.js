@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,12 +10,12 @@ import Title from './Title';
 
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { getDate } from 'date-fns';
+// import { getDate } from 'date-fns';
 
 // Generate Order Data
-function createData(id, date, name, service, staff, slots, status) {
-	return { id, date, name, service, staff, slots, status };
-}
+// function createData(id, date, name, service, staff, slots, status) {
+// 	return { id, date, name, service, staff, slots, status };
+// }
 
 const useStyles = makeStyles((theme) => ({
 	seeMore: {
@@ -38,9 +38,7 @@ export default function Orders() {
 			setData(res.data);
 		};
 		getVisit();
-	}, [axios]);
-
-	console.log(data);
+	}, [token]);
 
 	const rows = data;
 
@@ -82,7 +80,6 @@ export default function Orders() {
 							'December',
 						];
 						d.getFullYear();
-						console.log(months[d.getMonth()]);
 						const today = `${d.getDate()} ${
 							months[d.getMonth()]
 						}, ${d.getFullYear()}`;

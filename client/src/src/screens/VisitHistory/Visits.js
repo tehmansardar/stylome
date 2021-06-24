@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
 import './style.css';
 
@@ -60,7 +61,10 @@ const Visits = ({ visit }) => {
 					</span>
 				</div>
 				<div className='flex flex-col items-center justify-between'>
-					<b>{visit.price} Rs</b>
+					<b>
+						<LocalOfferIcon />
+						{visit.price} Rs
+					</b>
 					{visit.status === 0 && (
 						<Button
 							className={classes.button}

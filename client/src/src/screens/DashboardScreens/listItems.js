@@ -4,12 +4,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+// import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
+// import BarChartIcon from '@material-ui/icons/BarChart';
+// import LayersIcon from '@material-ui/icons/Layers';
+// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import YouTubeIcon from '@material-ui/icons/YouTube';
@@ -71,7 +71,7 @@ export const mainListItems = (
 
 export const secondaryListItems = (
 	<div>
-		<ListSubheader inset>Saved reports</ListSubheader>
+		<ListSubheader inset>Learn How To Use</ListSubheader>
 		<ListItem button>
 			<ListItemIcon style={{ color: '#FF0000' }}>
 				<YouTubeIcon />

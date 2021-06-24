@@ -9,6 +9,7 @@ module.exports = {
 				sans: ['Helvetica', 'Arial', 'sans-serif'],
 			},
 			screens: {
+				xxs: '330px',
 				xs: '475px',
 				sm: '640px',
 				md: '768px',

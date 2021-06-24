@@ -58,7 +58,7 @@ const AddStaff = () => {
 		}
 	};
 
-	console.log(err, success);
+	// console.log(err, success);
 
 	return (
 		<div>

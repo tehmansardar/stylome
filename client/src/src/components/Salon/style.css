@@ -79,6 +79,17 @@
 	.salon-right .schedule-visit:hover {
 		background: #fcd772;
 	}
+
+	.salon-right .schedule-closed {
+		/* background: #ffcd06; */
+		font-weight: bold;
+		text-transform: capitalize;
+		width: 120px;
+	}
+	.salon-right .schedule-closed:hover {
+		/* background: #fcd772; */
+	}
+
 	.salon-right .salon-status,
 	.salon-right .salon-status:hover {
 		height: 20px;
