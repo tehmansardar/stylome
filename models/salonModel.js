@@ -36,6 +36,10 @@ const salonSchema = new mongoose.Schema(
 			default: '',
 		},
 		location: {
+			latLng: {
+				type: String,
+				default: '',
+			},
 			address: {
 				type: String,
 				default: null,

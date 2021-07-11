@@ -11,6 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Divider from '@material-ui/core/Divider';
 
+import RoomIcon from '@material-ui/icons/Room';
+
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
 	MuiPickersUtilsProvider,
@@ -96,6 +98,9 @@ const BasicInfo = () => {
 		salons.timing.closing ? ParseTime(salons.timing.closing) : new Date()
 	);
 	const [showcase, setShowcase] = useState('');
+	const [latLng, setLatLng] = useState(
+		salons.location.latLng ? salons.location.latLng : ''
+	);
 	const [address, setAddress] = useState('');
 	const [postalCode, setPostalCode] = useState('');
 	const [city, setCity] = useState('');
@@ -182,6 +187,7 @@ const BasicInfo = () => {
 					},
 					showcase: showcase ? showcase : salons.showcase,
 					location: {
+						latLng: latLng,
 						address: address ? address : salons.location.address,
 						postalCode: postalCode ? postalCode : salons.location.postalCode,
 						city: city ? city : salons.location.city,
@@ -201,6 +207,17 @@ const BasicInfo = () => {
 		}
 	};
 
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		} else {
+			console.log('Geolocation is not supported by this browser.');
+		}
+	}
+
+	function showPosition(position) {
+		setLatLng(`${position.coords.latitude}, ${position.coords.longitude}`);
+	}
 	return (
 		<div>
 			<Paper className={classes.paper}>
@@ -331,8 +348,22 @@ const BasicInfo = () => {
 									</div>
 									<Divider />
 								</Grid>
-								<Grid item xs={12} md={12} lg={12}>
+
+								<Grid item xs={8} md={8} lg={8}>
 									<h3 className={classes.fieldHeading}>Location</h3>
+									<div className='flex justify-between items-center bg-gray-200 rounded-xl pl-2'>
+										<input
+											type='text'
+											placeholder='Pin your location'
+											value={`${latLng}`}
+											onChange={(e) => setLatLng(e.target.value)}
+										/>
+										<IconButton onClick={getLocation}>
+											<RoomIcon />
+										</IconButton>
+									</div>
+								</Grid>
+								<Grid item xs={12} md={12} lg={12}>
 									<TextField
 										// variant='outlined'
 										margin='normal'
