@@ -33,7 +33,7 @@ const Reviews = ({ id }) => {
 		<div className='services'>
 			<Container>
 				<Grid container className={classes.container}>
-					<Grid item xs={12} md={12} lg={6}>
+					<Grid item xs={12} md={12} lg={12}>
 						{data.length > 0
 							? data.map((d) => <Review key={d._id} data={d} />)
 							: 'No Reviews'}

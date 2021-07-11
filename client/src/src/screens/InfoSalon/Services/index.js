@@ -24,7 +24,7 @@ const Services = ({ services }) => {
 		<div className='services'>
 			<Container>
 				<Grid container className={classes.container}>
-					<Grid item xs={12} md={12} lg={6}>
+					<Grid item xs={12} md={12} lg={12}>
 						{' '}
 						{services
 							? services.map((service) => (

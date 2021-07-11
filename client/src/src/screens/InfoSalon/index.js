@@ -12,10 +12,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ShareIcon from '@material-ui/icons/Share';
 
-import Services from '../../components/Services';
 import ScheduleModal from '../../components/VisitModal/ScheduleModal';
 
 import Tabs from './Tabs';
+import MapLocation from './MapLocation';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchClearVisit } from '../../../redux/actions/visitActions';
@@ -27,6 +27,11 @@ const InfoScreen = () => {
 
 	const SalonId = useParams('salonId');
 	const [salon, setSalon] = useState('');
+	const [location, setLocation] = useState({
+		address: '',
+		lat: null,
+		lng: null,
+	});
 
 	// Modal
 	const signin = useSelector((state) => state.auth.isLogged);
@@ -76,6 +81,9 @@ const InfoScreen = () => {
 	// ) {
 	// 	console.log(ParseTime(salon.timing.opening));
 	// }
+
+	// eslint-disable-next-line no-restricted-globals
+
 	return (
 		<>
 			{loading ? (
@@ -145,7 +153,17 @@ const InfoScreen = () => {
 						</span> */}
 								</div>
 							</div>
-							<img
+							<div
+								className='showcase-wrapper'
+								style={{
+									background: `url( ${
+										salon.showcase
+											? salon.showcase
+											: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Very_Black_screen.jpg'
+									}) no-repeat center center/cover`,
+								}}
+							></div>
+							{/* <img
 								src={
 									salon.showcase
 										? salon.showcase
@@ -153,8 +171,8 @@ const InfoScreen = () => {
 								}
 								alt='stylo barbers'
 								loading='lazy'
-								className='lg:h-96'
-							/>
+								// className='lg:h-96'
+							/> */}
 						</div>
 						{/* facilities */}
 						{/* <div className='facilities'>
@@ -170,7 +188,11 @@ const InfoScreen = () => {
 							<p className='desc'>{salon.description}</p>
 						</div>
 						<hr className='hr-line' /> */}
-						<Tabs salon={salon} salonId={SalonId.salonId} />
+						<div className='flex'>
+							<Tabs salon={salon} salonId={SalonId.salonId} />
+							<MapLocation loc={salon?.location} />
+						</div>
+
 						{/* map */}
 						{/* <div className='map'></div> */}
 						<ScheduleModal salon={salon} open={open} onClose={handleClose} />
